@@ -1,11 +1,21 @@
 import { app, BrowserWindow } from "electron";
+import * as Config from "electron-store";
 
+const config = new Config({
+  defaults: {
+    bounds: {
+      width: 800,
+      height: 600,
+    },
+  },
+});
 let win: BrowserWindow | null;
 
 async function createWindow() {
+  const { width, height } = config.get("bounds");
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: width,
+    height: height,
   });
   await win.loadFile(`__dist/index.html`);
 
