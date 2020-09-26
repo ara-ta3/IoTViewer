@@ -24,7 +24,7 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
           Hue Device Manager
         </Typography>
         <TextField
-          label="IP Address of Hue Device"
+          label="Address with http or https of Hue Device"
           fullWidth={true}
           onChange={(e) => props.updateIP(e.target.value)}
         />
