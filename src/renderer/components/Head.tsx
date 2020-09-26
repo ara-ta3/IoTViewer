@@ -44,7 +44,6 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
           fetchDevices={props.fetchDevices}
         />
       </Box>
-      <Typography variant="inherit">{JSON.stringify(props.devices)}</Typography>
     </div>
   );
 };
