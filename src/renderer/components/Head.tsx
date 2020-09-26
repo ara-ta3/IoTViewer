@@ -13,6 +13,9 @@ export interface HeadProps {
 }
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: theme.spacing(4, 0),
+  },
   base: {
     margin: theme.spacing(4, 0),
   },
@@ -21,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 export const Head: React.FC<HeadProps> = (props: HeadProps) => {
   const s = useStyles();
   return (
-    <div>
+    <div className={s.root}>
       <Box className={s.base}>
         <Typography variant="h6" component="h3">
           Hue Device Manager

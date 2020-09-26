@@ -1,6 +1,7 @@
 import { makeStyles, Paper, Theme } from "@material-ui/core";
 import * as React from "react";
 import HeadContainer from "../containers/HeadContainer";
+import HueContainer from "../containers/HueContainer";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -14,6 +15,7 @@ export const Application: React.FC = () => {
   return (
     <Paper className={classes.root}>
       <HeadContainer />
+      <HueContainer />
     </Paper>
   );
 };
