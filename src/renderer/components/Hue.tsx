@@ -14,6 +14,9 @@ const useStyles = makeStyles({
   grid: {
     flexGrow: 1,
   },
+  type: {
+    fontSize: 14,
+  },
 });
 
 export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
@@ -41,10 +44,15 @@ export const HueCard: React.FC<{ device: Device }> = (props: {
   return (
     <Card className={classes.root}>
       <CardContent>
+        <Typography className={classes.type} color="textSecondary" gutterBottom>
+          {props.device.type}
+        </Typography>
         <Typography variant="h5" component="h2">
           {props.device.name}
         </Typography>
-
+        <Typography color="textSecondary">
+          {props.device.productName}
+        </Typography>
         <Switch checked={props.device.state.on} color="primary" name="Switch" />
       </CardContent>
     </Card>

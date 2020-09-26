@@ -18,7 +18,9 @@ class HueGateway {
 }
 
 interface DevicesResponse {
-  [key: number]: Omit<Device, "id">;
+  [key: number]: Omit<Omit<Device, "id">, "productName"> & {
+    productname: string;
+  };
 }
 
 function responseToDevices(res: DevicesResponse): Device[] {
@@ -28,6 +30,7 @@ function responseToDevices(res: DevicesResponse): Device[] {
     return {
       ...partial,
       id: id,
+      productName: partial.productname,
     };
   });
 }
@@ -38,5 +41,6 @@ export async function fetchDevices(
 ): Promise<Device[]> {
   const g = new HueGateway(apiEndpoint, userName);
   const res = await g.fetchDevices();
+  console.log(res);
   return responseToDevices(res);
 }

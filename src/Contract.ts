@@ -5,4 +5,5 @@ export interface Device {
   };
   type: string;
   name: string;
+  productName: string;
 }
