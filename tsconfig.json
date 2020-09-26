@@ -1,14 +1,18 @@
 {
     "compilerOptions": {
+        "target": "es2017",
         "module": "commonjs",
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "jsx": "react",
+        "strict": true,
+        "lib": [
+            "dom",
+            "es2019"
+        ]
     },
-    "include": [
-        "src/**/*"
-    ],
     "exclude": [
         "node_modules/**/*"
     ]

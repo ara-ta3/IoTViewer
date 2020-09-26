@@ -2,10 +2,11 @@
   "name": "hueviewer",
   "version": "1.0.0",
   "description": "",
-  "main": "src/main.js",
+  "main": "__dist/main.js",
   "scripts": {
-      "electron": "electron .",
-      "build": "tsc"
+    "electron": "electron .",
+    "build": "webpack --display-error-details",
+    "build-watch": "webpack --display-error-details -w"
   },
   "repository": {
     "type": "git",
@@ -18,12 +19,21 @@
   },
   "homepage": "https://github.com/ara-ta3/HueViewer#readme",
   "devDependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@types/electron": "^1.6.10",
     "@types/node": "^14.11.2",
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
     "prettier": "^2.1.2",
-    "typescript": "^4.0.3"
+    "ts-loader": "^8.0.4",
+    "typescript": "^4.0.3",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "electron": "^10.1.2"
+    "electron": "^10.1.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }
