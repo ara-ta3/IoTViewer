@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+import { Device } from "./Contract";
 
 class HueGateway {
   readonly apiEndpoint: string;
@@ -16,20 +17,26 @@ class HueGateway {
   }
 }
 
-export interface DevicesResponse {
-  [key: string]: {
-    state: {
-      on: boolean;
+interface DevicesResponse {
+  [key: number]: Omit<Device, "id">;
+}
+
+function responseToDevices(res: DevicesResponse): Device[] {
+  return Object.keys(res).map((key) => {
+    const id = parseInt(key);
+    const partial = res[id];
+    return {
+      ...partial,
+      id: id,
     };
-    type: string;
-    name: string;
-  };
+  });
 }
 
 export async function fetchDevices(
   apiEndpoint: string,
   userName: string
-): Promise<DevicesResponse> {
+): Promise<Device[]> {
   const g = new HueGateway(apiEndpoint, userName);
-  return g.fetchDevices();
+  const res = await g.fetchDevices();
+  return responseToDevices(res);
 }

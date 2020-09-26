@@ -5,12 +5,12 @@ import {
   UPDATE_IP,
   UPDATE_NAME,
 } from "../actions/HueAction";
-import { DevicesResponse } from "../../HueGateway";
+import { Device } from "../../Contract";
 
 export interface HueUserState {
   readonly name: string | null;
   readonly ip: string | null;
-  readonly devices: DevicesResponse | null;
+  readonly devices: Device[] | null;
 }
 
 const defaultState: HueUserState = {
@@ -37,7 +37,7 @@ export const textReducer: Reducer<HueUserState> = (
     case FETCH_DEVICES_FINISHED:
       return {
         ...state,
-        devices: action.payload,
+        devices: action.devices,
       };
     default:
       return state;

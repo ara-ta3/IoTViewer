@@ -1,10 +1,6 @@
 import { Action, ActionCreator, AnyAction, Dispatch } from "redux";
-import {
-  DevicesResponse,
-  fetchDevices as GatewayFetchDevices,
-} from "../../HueGateway";
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { RootState } from "../reducers";
+import { fetchDevices as GatewayFetchDevices } from "../../HueGateway";
+import { Device } from "../../Contract";
 
 export type HueAction =
   | AnyAction
@@ -39,7 +35,7 @@ export interface FetchDevicesStart extends Action {
 
 export interface FetchDevicesFinished extends Action {
   type: "FETCH_DEVICES_FINISHED";
-  payload: DevicesResponse;
+  devices: Device[];
 }
 
 export interface FetchDevicesFailed extends Action {
@@ -62,10 +58,10 @@ const fetchDevicesStart: ActionCreator<FetchDevicesStart> = () => ({
 });
 
 const fetchDevicesFinished: ActionCreator<FetchDevicesFinished> = (
-  payload: DevicesResponse
+  devices: Device[]
 ) => ({
   type: FETCH_DEVICES_FINISHED,
-  payload: payload,
+  devices: devices,
 });
 
 const fetchDevicesFailed: ActionCreator<FetchDevicesFailed> = (

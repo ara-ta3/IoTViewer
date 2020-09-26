@@ -1,14 +1,8 @@
 import { connect } from "react-redux";
-import { AnyAction, Dispatch } from "redux";
 
 import { RootState } from "../reducers";
 import { Head } from "../components/Head";
-import {
-  fetchDevices,
-  HueAction,
-  updateIP,
-  updateName,
-} from "../actions/HueAction";
+import { fetchDevices, updateIP, updateName } from "../actions/HueAction";
 
 const mapStateToProps = (state: RootState) => ({
   name: state.hue.name ?? "",

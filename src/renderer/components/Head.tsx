@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { DevicesResponse } from "../../HueGateway";
+import { Device } from "../../Contract";
 
 export interface HeadProps {
   name: string;
   ip: string;
-  devices: DevicesResponse | null;
+  devices: Device[] | null;
   updateName: (name: string) => any;
   updateIP: (ip: string) => any;
   fetchDevices: (ip: string, name: string) => any;
