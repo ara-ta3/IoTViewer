@@ -1,6 +1,6 @@
 NPM=npm
 
-run: build
+run:
 	$(NPM) run electron
 
 build:
