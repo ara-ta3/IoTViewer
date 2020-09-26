@@ -1,24 +1,36 @@
-import { Action, combineReducers, Reducer } from "redux";
+import { combineReducers, Reducer } from "redux";
+import { HueAction, UPDATE_NAME } from "../actions/HueAction";
 
-export interface TextState {
-  readonly value: string;
+export interface HueUserState {
+  readonly name: string | null;
 }
 
-const defaultState: TextState = {
-  value: "Hello World",
+const defaultState: HueUserState = {
+  name: null,
 };
 
-export const textReducer: Reducer<TextState> = (
+export const textReducer: Reducer<HueUserState> = (
   state = defaultState,
-  action: Action
+  action: HueAction
 ) => {
-  return state;
+  switch (action.type) {
+    case UPDATE_NAME:
+      return {
+        ...state,
+        name: action.value,
+      };
+    default:
+      return state;
+  }
 };
 
 export interface RootState {
-  text: TextState;
+  text: HueUserState;
 }
 
-export const rootReducer = combineReducers<RootState>({
+export const rootReducer: Reducer<RootState, HueAction> = combineReducers<
+  RootState,
+  HueAction
+>({
   text: textReducer,
 });
