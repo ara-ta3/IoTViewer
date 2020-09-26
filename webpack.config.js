@@ -11,6 +11,14 @@ const main = {
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
   },
+  module: {
+    rules: [
+      {
+        test: /\.ts?$/,
+        use: [{ loader: "ts-loader" }],
+      },
+    ],
+  },
 };
 
 const renderer = {
