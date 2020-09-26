@@ -4,7 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export interface HeadProps {
   name: string;
+  ip: string;
   updateName: (name: string) => any;
+  updateIP: (ip: string) => any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -22,20 +24,25 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
           Hue Device Manager
         </Typography>
         <TextField
+          label="IP Address of Hue Device"
+          fullWidth={true}
+          onChange={(e) => props.updateIP(e.target.value)}
+        />
+        <TextField
           label="UserName"
           fullWidth={true}
           onChange={(e) => props.updateName(e.target.value)}
         />
       </Box>
       <Box>
-        <FetchButton name={props.name} />
+        <FetchButton name={props.name} ip={props.ip} />
       </Box>
     </div>
   );
 };
 
-const FetchButton: React.FC<{ name: string }> = ({ name }) => {
-  return name.length === 0 ? (
+const FetchButton: React.FC<{ name: string; ip: string }> = ({ name, ip }) => {
+  return name.length === 0 || ip.length === 0 ? (
     <Button variant="contained" color="primary" disabled>
       Fetch Devices
     </Button>
