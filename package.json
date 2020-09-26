@@ -33,10 +33,13 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "@types/node-fetch": "^2.5.7",
     "electron": "^10.1.2",
+    "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   }
 }
