@@ -10,4 +10,4 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({});
 
-export const HeadContainer = connect(mapStateToProps, mapDispatchToProps)(Head);
+export default connect(mapStateToProps, mapDispatchToProps)(Head);

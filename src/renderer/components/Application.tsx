@@ -1,6 +1,6 @@
 import { makeStyles, Paper, Theme } from "@material-ui/core";
 import * as React from "react";
-import { HeadContainer } from "../containers";
+import HeadContainer from "../containers/HeadContainer";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
