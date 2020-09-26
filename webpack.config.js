@@ -17,9 +17,9 @@ const renderer = {
   mode: "development",
   target: "electron-renderer",
   devtool: "inline-source-map",
-  entry: path.join(__dirname, "src", "renderer", "index"),
+  entry: path.join(__dirname, "src", "renderer", "App"),
   output: {
-    filename: "index.js",
+    filename: "app.js",
     path: path.resolve(__dirname, "__dist", "scripts"),
   },
   resolve: {
