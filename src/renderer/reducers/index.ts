@@ -16,7 +16,7 @@ export interface HueUserState {
 }
 
 const defaultState: HueUserState = {
-  name: localStorage.getItem("hutName") ?? null,
+  name: localStorage.getItem("hueName") ?? null,
   ip: null,
   devices: null,
   userNameDescription: null,
@@ -39,6 +39,7 @@ export const textReducer: Reducer<HueUserState> = (
       };
 
     case REGISTER_APP_FINISHED:
+      localStorage.setItem("hueName", action.userName);
       return {
         ...state,
         name: action.userName,
