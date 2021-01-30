@@ -7,8 +7,9 @@ export interface HeadProps {
   name: string;
   ip: string;
   devices: Device[] | null;
+  userNameDescription: string;
   fetchIP: () => any;
-  registerApp: () => any;
+  registerApp: (ip: string) => any;
   fetchDevices: (ip: string, name: string) => any;
 }
 
@@ -36,6 +37,9 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
         </Typography>
         <Typography variant="h6" component="h3">
           User Name: {props.name}
+        </Typography>
+        <Typography variant="subtitle1" component="h3" color={"error"}>
+          {props.userNameDescription}
         </Typography>
       </Box>
       <Box className={s.base}>

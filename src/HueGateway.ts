@@ -33,7 +33,7 @@ export async function fetchHueApiEndpoint(): Promise<Option<string>> {
   );
 }
 
-interface RegisterAppError {
+export interface RegisterAppError {
   error: {
     type: number;
     address: string;
@@ -41,7 +41,7 @@ interface RegisterAppError {
   };
 }
 
-interface RegisterAppSuccess {
+export interface RegisterAppSuccess {
   success: {
     username: string;
   };
@@ -49,10 +49,9 @@ interface RegisterAppSuccess {
 
 export async function registerApp(
   apiEndpoint: string,
-  userName: string,
   deviceType: string = "HueViewer"
 ): Promise<Option<RegisterAppError | RegisterAppSuccess>> {
-  const url = `${apiEndpoint}/api/${userName}/lights`;
+  const url = `${apiEndpoint}/api`;
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
