@@ -30,7 +30,7 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
           Hue Device Manager
         </Typography>
         <Typography variant="h6" component="h3">
-          IP Address: props. {props.ip}
+          IP Address: {props.ip}
         </Typography>
         <TextField
           label="UserName"
