@@ -6,7 +6,7 @@ import {
 import { Device } from "../../Contract";
 import { fold } from "fp-ts/Option";
 
-export type HueAction = AnyAction | UpdateNameAction | FetchDevicesAction;
+export type HueAction = AnyAction | FetchDevicesAction;
 
 export type UpdateIPAction = UpdateIPStart | UpdateIPFinished | UpdateIPFailed;
 
@@ -15,18 +15,12 @@ export type FetchDevicesAction =
   | FetchDevicesFinished
   | FetchDevicesFailed;
 
-export const UPDATE_NAME = "UPDATE_NAME";
 export const UPDATE_IP_START = "UPDATE_IP_START";
 export const UPDATE_IP_FINISHED = "UPDATE_IP_FINISHED";
 export const UPDATE_IP_FAILED = "UPDATE_IP_FAILED";
 export const FETCH_DEVICES_START = "FETCH_DEVICES_START";
 export const FETCH_DEVICES_FINISHED = "FETCH_DEVICES_FINISHED";
 export const FETCH_DEVICES_FAILED = "FETCH_DEVICES_FAILED";
-
-export interface UpdateNameAction extends Action {
-  type: "UPDATE_NAME";
-  value: string;
-}
 
 export interface UpdateIPStart extends Action {
   type: "UPDATE_IP_START";
@@ -54,11 +48,6 @@ export interface FetchDevicesFailed extends Action {
   type: "FETCH_DEVICES_FAILED";
   error: Error;
 }
-
-export const updateName: ActionCreator<UpdateNameAction> = (name: string) => ({
-  type: UPDATE_NAME,
-  value: name,
-});
 
 const updateIPStart: ActionCreator<UpdateIPStart> = () => ({
   type: UPDATE_IP_START,

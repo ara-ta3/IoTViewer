@@ -7,7 +7,6 @@ export interface HeadProps {
   name: string;
   ip: string;
   devices: Device[] | null;
-  updateName: (name: string) => any;
   fetchIP: () => any;
   fetchDevices: (ip: string, name: string) => any;
 }
