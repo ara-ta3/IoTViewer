@@ -51,7 +51,7 @@ export async function registerApp(
   apiEndpoint: string,
   deviceType: string = "HueViewer"
 ): Promise<Option<RegisterAppError | RegisterAppSuccess>> {
-  const url = `${apiEndpoint}/api`;
+  const url = `http://${apiEndpoint}/api`;
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify({

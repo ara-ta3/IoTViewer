@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Button, TextField, Typography } from "@material-ui/core";
+import { Box, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Device } from "../../Contract";
 
