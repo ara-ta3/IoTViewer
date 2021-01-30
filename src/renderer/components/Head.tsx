@@ -68,7 +68,11 @@ const RegisterButton: React.FC<{
   register: (ip: string) => any;
 }> = ({ ip, register }) => {
   return (
-    <Button variant="contained" color="primary" onClick={() => register(ip)}>
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={() => register(`http://${ip}`)}
+    >
       Register Application
     </Button>
   );
@@ -87,7 +91,7 @@ const FetchButton: React.FC<{
     <Button
       variant="contained"
       color="primary"
-      onClick={() => fetchDevices(ip, name)}
+      onClick={() => fetchDevices(`http://${ip}`, name)}
     >
       Fetch Devices
     </Button>
