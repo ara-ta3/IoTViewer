@@ -5,6 +5,12 @@ import { Card, CardContent, Grid, Switch, Typography } from "@material-ui/core";
 
 export interface HueProps {
   devices: Device[];
+  updateDevice: (
+    endpoint: string,
+    userName: string,
+    deviceId: number,
+    on: boolean
+  ) => any;
 }
 
 const useStyles = makeStyles({
@@ -23,7 +29,7 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
   const classes = useStyles();
   const devices = props.devices.map((d) => (
     <Grid item xs={4}>
-      <HueCard device={d} />
+      <HueCard device={d} updateDevice={props.updateDevice} />
     </Grid>
   ));
 
@@ -36,8 +42,22 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
   );
 };
 
-export const HueCard: React.FC<{ device: Device }> = (props: {
+export const HueCard: React.FC<{
   device: Device;
+  updateDevice: (
+    endpoint: string,
+    userName: string,
+    deviceId: number,
+    on: boolean
+  ) => any;
+}> = (props: {
+  device: Device;
+  updateDevice: (
+    endpoint: string,
+    userName: string,
+    deviceId: number,
+    on: boolean
+  ) => any;
 }) => {
   const classes = useStyles();
 
@@ -53,7 +73,14 @@ export const HueCard: React.FC<{ device: Device }> = (props: {
         <Typography color="textSecondary">
           {props.device.productName}
         </Typography>
-        <Switch checked={props.device.state.on} color="primary" name="Switch" />
+        <Switch
+          checked={props.device.state.on}
+          color="primary"
+          name="Switch"
+          onChange={() =>
+            props.updateDevice(props.device.id, !props.device.state.on)
+          }
+        />
       </CardContent>
     </Card>
   );
