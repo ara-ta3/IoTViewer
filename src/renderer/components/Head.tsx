@@ -8,7 +8,7 @@ export interface HeadProps {
   ip: string;
   devices: Device[] | null;
   updateName: (name: string) => any;
-  updateIP: (ip: string) => any;
+  fetchIP: () => any;
   fetchDevices: (ip: string, name: string) => any;
 }
 
@@ -29,11 +29,9 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
         <Typography variant="h6" component="h3">
           Hue Device Manager
         </Typography>
-        <TextField
-          label="Address with http or https of Hue Device"
-          fullWidth={true}
-          onChange={(e) => props.updateIP(e.target.value)}
-        />
+        <Typography variant="h6" component="h3">
+          IP Address: props. {props.ip}
+        </Typography>
         <TextField
           label="UserName"
           fullWidth={true}
@@ -41,6 +39,7 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
         />
       </Box>
       <Box>
+        <FetchIPButton fetchIP={props.fetchIP} />
         <FetchButton
           ip={props.ip}
           name={props.name}
@@ -48,6 +47,14 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
         />
       </Box>
     </div>
+  );
+};
+
+const FetchIPButton: React.FC<{ fetchIP: () => any }> = ({ fetchIP }) => {
+  return (
+    <Button variant="contained" color="primary" onClick={fetchIP}>
+      Fetch IP
+    </Button>
   );
 };
 

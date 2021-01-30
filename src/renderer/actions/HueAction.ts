@@ -1,12 +1,14 @@
 import { Action, ActionCreator, AnyAction, Dispatch } from "redux";
-import { fetchDevices as GatewayFetchDevices } from "../../HueGateway";
+import {
+  fetchDevices as GatewayFetchDevices,
+  fetchHueApiEndpoint,
+} from "../../HueGateway";
 import { Device } from "../../Contract";
+import { fold } from "fp-ts/Option";
 
-export type HueAction =
-  | AnyAction
-  | UpdateNameAction
-  | UpdateIPAction
-  | FetchDevicesAction;
+export type HueAction = AnyAction | UpdateNameAction | FetchDevicesAction;
+
+export type UpdateIPAction = UpdateIPStart | UpdateIPFinished | UpdateIPFailed;
 
 export type FetchDevicesAction =
   | FetchDevicesStart
@@ -14,7 +16,9 @@ export type FetchDevicesAction =
   | FetchDevicesFailed;
 
 export const UPDATE_NAME = "UPDATE_NAME";
-export const UPDATE_IP = "UPDATE_IP";
+export const UPDATE_IP_START = "UPDATE_IP_START";
+export const UPDATE_IP_FINISHED = "UPDATE_IP_FINISHED";
+export const UPDATE_IP_FAILED = "UPDATE_IP_FAILED";
 export const FETCH_DEVICES_START = "FETCH_DEVICES_START";
 export const FETCH_DEVICES_FINISHED = "FETCH_DEVICES_FINISHED";
 export const FETCH_DEVICES_FAILED = "FETCH_DEVICES_FAILED";
@@ -24,9 +28,17 @@ export interface UpdateNameAction extends Action {
   value: string;
 }
 
-export interface UpdateIPAction extends Action {
-  type: "UPDATE_IP";
+export interface UpdateIPStart extends Action {
+  type: "UPDATE_IP_START";
+}
+
+export interface UpdateIPFinished extends Action {
+  type: "UPDATE_IP_FINISHED";
   value: string;
+}
+
+export interface UpdateIPFailed extends Action {
+  type: "UPDATE_IP_FAILED";
 }
 
 export interface FetchDevicesStart extends Action {
@@ -48,10 +60,32 @@ export const updateName: ActionCreator<UpdateNameAction> = (name: string) => ({
   value: name,
 });
 
-export const updateIP: ActionCreator<UpdateIPAction> = (ip: string) => ({
-  type: UPDATE_IP,
+const updateIPStart: ActionCreator<UpdateIPStart> = () => ({
+  type: UPDATE_IP_START,
+});
+
+const updateIPFinished: ActionCreator<UpdateIPFinished> = (ip: string) => ({
+  type: UPDATE_IP_FINISHED,
   value: ip,
 });
+
+const updateIPFailed: ActionCreator<UpdateIPFailed> = () => ({
+  type: UPDATE_IP_FAILED,
+});
+
+export const updateIP = () => {
+  return (dispatch: Dispatch<AnyAction>) => {
+    dispatch(updateIPStart());
+    fetchHueApiEndpoint()
+      .then((r) =>
+        fold<string, UpdateIPAction>(
+          () => dispatch(updateIPFailed()),
+          (x) => dispatch(updateIPFinished(x))
+        )(r)
+      )
+      .catch(() => dispatch(updateIPFailed()));
+  };
+};
 
 const fetchDevicesStart: ActionCreator<FetchDevicesStart> = () => ({
   type: FETCH_DEVICES_START,

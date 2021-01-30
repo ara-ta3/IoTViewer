@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import { Device } from "./Contract";
+import { fromNullable, map, Option } from "fp-ts/Option";
 
 class HueGateway {
   readonly apiEndpoint: string;
@@ -12,9 +13,21 @@ class HueGateway {
   async fetchDevices(): Promise<DevicesResponse> {
     const url = `${this.apiEndpoint}/api/${this.userName}/lights`;
     const res = await fetch(url);
-    const body: DevicesResponse = await res.json();
-    return body;
+    return res.json();
   }
+}
+
+interface DiscoveryMeethueResponseValue {
+  id: string;
+  internalipaddress: string;
+}
+
+export async function fetchHueApiEndpoint(): Promise<Option<string>> {
+  const res = await fetch("https://discovery.meethue.com/");
+  const json: DiscoveryMeethueResponseValue[] = await res.json();
+  return map((x: DiscoveryMeethueResponseValue) => x.internalipaddress)(
+    fromNullable(json.pop())
+  );
 }
 
 interface DevicesResponse {

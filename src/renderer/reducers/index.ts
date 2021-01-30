@@ -2,7 +2,7 @@ import { AnyAction, combineReducers, Reducer } from "redux";
 import {
   FETCH_DEVICES_FINISHED,
   HueAction,
-  UPDATE_IP,
+  UPDATE_IP_FINISHED,
   UPDATE_NAME,
 } from "../actions/HueAction";
 import { Device } from "../../Contract";
@@ -14,7 +14,7 @@ export interface HueUserState {
 }
 
 const defaultState: HueUserState = {
-  name: null,
+  name: localStorage.getItem("hutName") ?? null,
   ip: null,
   devices: null,
 };
@@ -25,11 +25,12 @@ export const textReducer: Reducer<HueUserState> = (
 ) => {
   switch (action.type) {
     case UPDATE_NAME:
+      localStorage.setItem("hueName", action.value);
       return {
         ...state,
         name: action.value,
       };
-    case UPDATE_IP:
+    case UPDATE_IP_FINISHED:
       return {
         ...state,
         ip: action.value,
