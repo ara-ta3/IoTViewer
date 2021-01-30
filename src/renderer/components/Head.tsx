@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(4, 0),
   },
   base: {
-    margin: theme.spacing(4, 0),
+    "& > *": {
+      margin: theme.spacing(1),
+    },
   },
 }));
 
@@ -32,14 +34,13 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
         <Typography variant="h6" component="h3">
           IP Address: {props.ip}
         </Typography>
-        <TextField
-          label="UserName"
-          fullWidth={true}
-          onChange={(e) => props.updateName(e.target.value)}
-        />
+        <Typography variant="h6" component="h3">
+          User Name: {props.name}
+        </Typography>
       </Box>
-      <Box>
+      <Box className={s.base}>
         <FetchIPButton fetchIP={props.fetchIP} />
+        <RegisterButton ip={props.ip} register={() => {}} />
         <FetchButton
           ip={props.ip}
           name={props.name}
@@ -54,6 +55,17 @@ const FetchIPButton: React.FC<{ fetchIP: () => any }> = ({ fetchIP }) => {
   return (
     <Button variant="contained" color="primary" onClick={fetchIP}>
       Fetch IP
+    </Button>
+  );
+};
+
+const RegisterButton: React.FC<{
+  ip: string;
+  register: (ip: string) => any;
+}> = ({ ip, register }) => {
+  return (
+    <Button variant="contained" color="primary" onClick={() => register(ip)}>
+      Register Application
     </Button>
   );
 };
