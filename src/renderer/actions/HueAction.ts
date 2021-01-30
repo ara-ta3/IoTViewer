@@ -223,7 +223,7 @@ export const updateLight = (
           (x) => {
             const s = x as UpdateDeviceSuccess;
             if (s.success !== undefined) {
-              fetchDevices(endpoint, name);
+              fetchDevices(endpoint, name)(dispatch);
               return dispatch(updateLightFinished());
             }
             const e = x as UpdateDeviceError;
