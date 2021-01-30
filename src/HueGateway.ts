@@ -51,7 +51,7 @@ export async function registerApp(
   apiEndpoint: string,
   deviceType: string = "HueViewer"
 ): Promise<Option<RegisterAppError | RegisterAppSuccess>> {
-  const url = `http://${apiEndpoint}/api`;
+  const url = `${apiEndpoint}/api`;
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
@@ -69,6 +69,34 @@ export async function fetchDevices(
   const url = `${apiEndpoint}/api/${userName}/lights`;
   const res = await fetch(url);
   const json: DevicesResponse = await res.json();
-  console.log(json);
   return responseToDevices(json);
+}
+
+export async function updateDevice(
+  apiEndpoint: string,
+  userName: string,
+  deviceId: number,
+  on: boolean
+): Promise<Option<UpdateDeviceSuccess | UpdateDeviceError>> {
+  const url = `${apiEndpoint}/api/${userName}/lights/${deviceId}/state`;
+  const res = await fetch(url, {
+    method: "PUT",
+    body: JSON.stringify({
+      on: on,
+    }),
+  });
+  const json: (UpdateDeviceSuccess | UpdateDeviceError)[] = await res.json();
+  return fromNullable(json.pop());
+}
+
+export interface UpdateDeviceError {
+  error: {
+    type: number;
+    address: string;
+    description: string;
+  };
+}
+
+export interface UpdateDeviceSuccess {
+  success: object;
 }
