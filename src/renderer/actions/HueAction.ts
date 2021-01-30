@@ -3,11 +3,14 @@ import {
   fetchDevices as GatewayFetchDevices,
   fetchHueApiEndpoint as GatewayFetchHueApiEndpoint,
   registerApp as GatewayRegisterApp,
+  updateDevice as GatewayUpdateDevice,
   RegisterAppError,
   RegisterAppSuccess,
 } from "../../HueGateway";
 import { Device } from "../../Contract";
 import { fold, Option } from "fp-ts/Option";
+import { UpdateDeviceSuccess } from "../../HueGateway";
+import { UpdateDeviceError } from "../../HueGateway";
 
 export type HueAction = AnyAction | FetchDevicesAction;
 
@@ -23,6 +26,11 @@ export type FetchDevicesAction =
   | FetchDevicesFinished
   | FetchDevicesFailed;
 
+export type UpdateLightAction =
+  | UpdateLightStart
+  | UpdateLightFinished
+  | UpdateLightFailed;
+
 export const UPDATE_IP_START = "UPDATE_IP_START";
 export const UPDATE_IP_FINISHED = "UPDATE_IP_FINISHED";
 export const UPDATE_IP_FAILED = "UPDATE_IP_FAILED";
@@ -32,6 +40,9 @@ export const FETCH_DEVICES_FAILED = "FETCH_DEVICES_FAILED";
 export const REGISTER_APP_START = "REGISTER_APP_START";
 export const REGISTER_APP_FINISHED = "REGISTER_APP_FINISHED";
 export const REGISTER_APP_FAILED = "REGISTER_APP_FAILED";
+export const UPDATE_LIGHT_START = "UPDATE_LIGHT_START";
+export const UPDATE_LIGHT_FINISHED = "UPDATE_LIGHT_FINISHED";
+export const UPDATE_LIGHT_FAILED = "UPDATE_LIGHT_FAILED";
 
 export interface UpdateIPStart extends Action {
   type: "UPDATE_IP_START";
@@ -72,6 +83,18 @@ export interface RegisterAppFinished extends Action {
 export interface RegisterAppFailed extends Action {
   type: "REGISTER_APP_FAILED";
   description: string;
+}
+
+export interface UpdateLightStart extends Action {
+  type: "UPDATE_LIGHT_START";
+}
+
+export interface UpdateLightFinished extends Action {
+  type: "UPDATE_LIGHT_FINISHED";
+}
+
+export interface UpdateLightFailed extends Action {
+  type: "UPDATE_LIGHT_FAILED";
 }
 
 const updateIPStart: ActionCreator<UpdateIPStart> = () => ({
@@ -166,6 +189,49 @@ export const registerApp = (endpoint: string) => {
             return dispatch(
               registerAppFailed(`Failed to parse response. ${x}`)
             );
+          }
+        )(r);
+      })
+      .catch((e: Error) => dispatch(registerAppFailed(e.message)));
+  };
+};
+
+const updateLightStart: ActionCreator<UpdateLightStart> = () => ({
+  type: UPDATE_LIGHT_START,
+});
+
+const updateLightFinished: ActionCreator<UpdateLightFinished> = () => ({
+  type: UPDATE_LIGHT_FINISHED,
+});
+
+const updateLightFailed: ActionCreator<UpdateLightFailed> = () => ({
+  type: UPDATE_LIGHT_FAILED,
+});
+
+export const updateLight = (
+  endpoint: string,
+  name: string,
+  deviceId: number,
+  on: boolean
+) => {
+  return (dispatch: Dispatch<AnyAction>) => {
+    dispatch(updateLightStart());
+    GatewayUpdateDevice(endpoint, name, deviceId, on)
+      .then((r: Option<UpdateDeviceSuccess | UpdateDeviceError>) => {
+        fold<UpdateDeviceSuccess | UpdateDeviceError, UpdateLightAction>(
+          () => dispatch(updateLightFailed()),
+          (x) => {
+            const s = x as UpdateDeviceSuccess;
+            if (s.success !== undefined) {
+              fetchDevices(endpoint, name);
+              return dispatch(updateLightFinished());
+            }
+            const e = x as UpdateDeviceError;
+            if (e.error !== undefined) {
+              return dispatch(updateLightFailed());
+            }
+
+            return dispatch(updateLightFailed());
           }
         )(r);
       })
