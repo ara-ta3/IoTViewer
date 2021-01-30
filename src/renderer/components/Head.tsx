@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Button, TextField, Typography } from "@material-ui/core";
+import { Box, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Device } from "../../Contract";
 
@@ -7,8 +7,9 @@ export interface HeadProps {
   name: string;
   ip: string;
   devices: Device[] | null;
-  updateName: (name: string) => any;
-  updateIP: (ip: string) => any;
+  userNameDescription: string;
+  fetchIP: () => any;
+  registerApp: (ip: string) => any;
   fetchDevices: (ip: string, name: string) => any;
 }
 
@@ -17,7 +18,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(4, 0),
   },
   base: {
-    margin: theme.spacing(4, 0),
+    "& > *": {
+      margin: theme.spacing(1),
+    },
   },
 }));
 
@@ -29,18 +32,19 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
         <Typography variant="h6" component="h3">
           Hue Device Manager
         </Typography>
-        <TextField
-          label="Address with http or https of Hue Device"
-          fullWidth={true}
-          onChange={(e) => props.updateIP(e.target.value)}
-        />
-        <TextField
-          label="UserName"
-          fullWidth={true}
-          onChange={(e) => props.updateName(e.target.value)}
-        />
+        <Typography variant="h6" component="h3">
+          IP Address: {props.ip}
+        </Typography>
+        <Typography variant="h6" component="h3">
+          User Name: {props.name}
+        </Typography>
+        <Typography variant="subtitle1" component="h3" color={"error"}>
+          {props.userNameDescription}
+        </Typography>
       </Box>
-      <Box>
+      <Box className={s.base}>
+        <FetchIPButton fetchIP={props.fetchIP} />
+        <RegisterButton ip={props.ip} register={props.registerApp} />
         <FetchButton
           ip={props.ip}
           name={props.name}
@@ -48,6 +52,25 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
         />
       </Box>
     </div>
+  );
+};
+
+const FetchIPButton: React.FC<{ fetchIP: () => any }> = ({ fetchIP }) => {
+  return (
+    <Button variant="contained" color="primary" onClick={fetchIP}>
+      Fetch IP
+    </Button>
+  );
+};
+
+const RegisterButton: React.FC<{
+  ip: string;
+  register: (ip: string) => any;
+}> = ({ ip, register }) => {
+  return (
+    <Button variant="contained" color="primary" onClick={() => register(ip)}>
+      Register Application
+    </Button>
   );
 };
 
