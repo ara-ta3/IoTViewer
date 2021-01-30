@@ -14,7 +14,7 @@ export interface HueUserState {
 }
 
 const defaultState: HueUserState = {
-  name: localStorage.getItem("hutName") ?? null,
+  name: localStorage.getItem("hutName") ?? "Hue Viewer User",
   ip: null,
   devices: null,
 };
