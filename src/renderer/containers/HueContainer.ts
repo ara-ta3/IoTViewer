@@ -10,7 +10,12 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  // updateDevice: (endpoint: string, userName: string, deviceId: number, on: boolean) => dispatch(),
+  updateDevice: (
+    endpoint: string,
+    userName: string,
+    deviceId: number,
+    on: boolean
+  ) => {},
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HueDevices);
