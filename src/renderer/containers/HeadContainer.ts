@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   fetchIP: () => dispatch(updateIP()),
+  registerApp: () => {},
   fetchDevices: (ip: string, name: string) => dispatch(fetchDevices(ip, name)),
 });
 

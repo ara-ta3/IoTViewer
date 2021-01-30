@@ -8,6 +8,7 @@ export interface HeadProps {
   ip: string;
   devices: Device[] | null;
   fetchIP: () => any;
+  registerApp: () => any;
   fetchDevices: (ip: string, name: string) => any;
 }
 
@@ -39,7 +40,7 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
       </Box>
       <Box className={s.base}>
         <FetchIPButton fetchIP={props.fetchIP} />
-        <RegisterButton ip={props.ip} register={() => {}} />
+        <RegisterButton ip={props.ip} register={props.registerApp} />
         <FetchButton
           ip={props.ip}
           name={props.name}

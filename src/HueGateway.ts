@@ -33,6 +33,36 @@ export async function fetchHueApiEndpoint(): Promise<Option<string>> {
   );
 }
 
+interface RegisterAppError {
+  error: {
+    type: number;
+    address: string;
+    description: string;
+  };
+}
+
+interface RegisterAppSuccess {
+  success: {
+    username: string;
+  };
+}
+
+export async function registerApp(
+  apiEndpoint: string,
+  userName: string,
+  deviceType: string = "HueViewer"
+): Promise<Option<RegisterAppError | RegisterAppSuccess>> {
+  const url = `${apiEndpoint}/api/${userName}/lights`;
+  const res = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      devicetype: deviceType,
+    }),
+  });
+  const json: (RegisterAppSuccess | RegisterAppError)[] = await res.json();
+  return fromNullable(json.pop());
+}
+
 export async function fetchDevices(
   apiEndpoint: string,
   userName: string
