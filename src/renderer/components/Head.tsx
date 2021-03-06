@@ -9,7 +9,7 @@ export interface HeadProps {
   devices: Device[] | null;
   userNameDescription: string;
   registerApp: () => any;
-  fetchDevices: (ip: string, name: string) => any;
+  fetchDevices: (name: string) => any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +66,7 @@ const RegisterButton: React.FC<{
 const FetchButton: React.FC<{
   name: string;
   ip: string;
-  fetchDevices: (ip: string, name: string) => any;
+  fetchDevices: (name: string) => any;
 }> = ({ name, ip, fetchDevices }) => {
   return name.length === 0 ? (
     <Button variant="contained" color="primary" disabled>
@@ -76,7 +76,7 @@ const FetchButton: React.FC<{
     <Button
       variant="contained"
       color="primary"
-      onClick={() => fetchDevices(`http://${ip}`, name)}
+      onClick={() => fetchDevices(name)}
     >
       Fetch Devices
     </Button>

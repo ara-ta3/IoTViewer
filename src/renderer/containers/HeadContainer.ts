@@ -13,7 +13,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
   registerApp: () => dispatch(registerApp()),
-  fetchDevices: (ip: string, name: string) => dispatch(fetchDevices(name)),
+  fetchDevices: (name: string) => dispatch(fetchDevices(name)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Head);
