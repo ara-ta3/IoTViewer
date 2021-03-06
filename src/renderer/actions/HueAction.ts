@@ -110,7 +110,7 @@ const updateIPFailed: ActionCreator<UpdateIPFailed> = () => ({
   type: UPDATE_IP_FAILED,
 });
 
-export const updateIP = () => {
+const updateIP = () => {
   return (dispatch: Dispatch<AnyAction>) => {
     dispatch(updateIPStart());
     GatewayFetchHueApiEndpoint()
@@ -142,12 +142,23 @@ const fetchDevicesFailed: ActionCreator<FetchDevicesFailed> = (
   error: error,
 });
 
-export const fetchDevices = (endpoint: string, name: string) => {
-  return (dispatch: Dispatch<AnyAction>) => {
-    dispatch(fetchDevicesStart());
-    GatewayFetchDevices(endpoint, name)
-      .then((r) => dispatch(fetchDevicesFinished(r)))
-      .catch((e: Error) => dispatch(fetchDevicesFailed(e)));
+export const fetchDevices = (name: string) => {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    dispatch(updateIPStart());
+    GatewayFetchHueApiEndpoint()
+      .then((r) =>
+        fold<string, any>(
+          () => dispatch(updateIPFailed()),
+          (x) => {
+            dispatch(updateIPFinished(x));
+            dispatch(fetchDevicesStart());
+            GatewayFetchDevices(`http://${x}`, name)
+              .then((r) => dispatch(fetchDevicesFinished(r)))
+              .catch((e: Error) => dispatch(fetchDevicesFailed(e)));
+          }
+        )(r)
+      )
+      .catch(() => dispatch(updateIPFailed()));
   };
 };
 
@@ -169,30 +180,41 @@ const registerAppFailed: ActionCreator<RegisterAppFailed> = (
   description: description,
 });
 
-export const registerApp = (endpoint: string) => {
+export const registerApp = () => {
   return (dispatch: Dispatch<AnyAction>) => {
-    dispatch(registerAppStart());
-    GatewayRegisterApp(endpoint)
-      .then((r: Option<RegisterAppSuccess | RegisterAppError>) => {
-        fold<RegisterAppSuccess | RegisterAppError, RegisterAction>(
-          () => dispatch(registerAppFailed("users are empty")),
+    dispatch(updateIPStart());
+    GatewayFetchHueApiEndpoint()
+      .then((r) =>
+        fold<string, any>(
+          () => dispatch(updateIPFailed()),
           (x) => {
-            const s = x as RegisterAppSuccess;
-            if (s.success !== undefined) {
-              return dispatch(registerAppFinished(s.success.username));
-            }
-            const e = x as RegisterAppError;
-            if (e.error !== undefined) {
-              return dispatch(registerAppFailed(e.error.description));
-            }
+            dispatch(updateIPFinished(x));
+            dispatch(registerAppStart());
+            GatewayRegisterApp(`http://${x}`)
+              .then((r: Option<RegisterAppSuccess | RegisterAppError>) => {
+                fold<RegisterAppSuccess | RegisterAppError, RegisterAction>(
+                  () => dispatch(registerAppFailed("users are empty")),
+                  (x) => {
+                    const s = x as RegisterAppSuccess;
+                    if (s.success !== undefined) {
+                      return dispatch(registerAppFinished(s.success.username));
+                    }
+                    const e = x as RegisterAppError;
+                    if (e.error !== undefined) {
+                      return dispatch(registerAppFailed(e.error.description));
+                    }
 
-            return dispatch(
-              registerAppFailed(`Failed to parse response. ${x}`)
-            );
+                    return dispatch(
+                      registerAppFailed(`Failed to parse response. ${x}`)
+                    );
+                  }
+                )(r);
+              })
+              .catch((e: Error) => dispatch(registerAppFailed(e.message)));
           }
-        )(r);
-      })
-      .catch((e: Error) => dispatch(registerAppFailed(e.message)));
+        )(r)
+      )
+      .catch(() => dispatch(updateIPFailed()));
   };
 };
 
@@ -223,7 +245,7 @@ export const updateLight = (
           (x) => {
             const s = x as UpdateDeviceSuccess;
             if (s.success !== undefined) {
-              fetchDevices(endpoint, name)(dispatch);
+              fetchDevices(name)(dispatch);
               return dispatch(updateLightFinished());
             }
             const e = x as UpdateDeviceError;

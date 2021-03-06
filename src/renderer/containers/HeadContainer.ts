@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 
 import { RootState } from "../reducers";
 import { Head } from "../components/Head";
-import { fetchDevices, registerApp, updateIP } from "../actions/HueAction";
+import { fetchDevices, registerApp } from "../actions/HueAction";
 
 const mapStateToProps = (state: RootState) => ({
   name: state.hue.name ?? "",
@@ -12,9 +12,8 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  fetchIP: () => dispatch(updateIP()),
-  registerApp: (ip: string) => dispatch(registerApp(ip)),
-  fetchDevices: (ip: string, name: string) => dispatch(fetchDevices(ip, name)),
+  registerApp: () => dispatch(registerApp()),
+  fetchDevices: (ip: string, name: string) => dispatch(fetchDevices(name)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Head);

@@ -8,8 +8,7 @@ export interface HeadProps {
   ip: string;
   devices: Device[] | null;
   userNameDescription: string;
-  fetchIP: () => any;
-  registerApp: (ip: string) => any;
+  registerApp: () => any;
   fetchDevices: (ip: string, name: string) => any;
 }
 
@@ -43,8 +42,7 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
         </Typography>
       </Box>
       <Box className={s.base}>
-        <FetchIPButton fetchIP={props.fetchIP} />
-        <RegisterButton ip={props.ip} register={props.registerApp} />
+        <RegisterButton register={props.registerApp} />
         <FetchButton
           ip={props.ip}
           name={props.name}
@@ -55,24 +53,11 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
   );
 };
 
-const FetchIPButton: React.FC<{ fetchIP: () => any }> = ({ fetchIP }) => {
-  return (
-    <Button variant="contained" color="primary" onClick={fetchIP}>
-      Fetch IP
-    </Button>
-  );
-};
-
 const RegisterButton: React.FC<{
-  ip: string;
-  register: (ip: string) => any;
-}> = ({ ip, register }) => {
+  register: () => any;
+}> = ({ register }) => {
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={() => register(`http://${ip}`)}
-    >
+    <Button variant="contained" color="primary" onClick={() => register()}>
       Register Application
     </Button>
   );
@@ -83,7 +68,7 @@ const FetchButton: React.FC<{
   ip: string;
   fetchDevices: (ip: string, name: string) => any;
 }> = ({ name, ip, fetchDevices }) => {
-  return name.length === 0 || ip.length === 0 ? (
+  return name.length === 0 ? (
     <Button variant="contained" color="primary" disabled>
       Fetch Devices
     </Button>
