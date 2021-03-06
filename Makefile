@@ -1,5 +1,8 @@
 NPM=npm
 
+install:
+	$(NPM) install
+
 run:
 	$(NPM) run electron
 
