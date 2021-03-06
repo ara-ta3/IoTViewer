@@ -4,6 +4,7 @@ export interface Device {
   id: number;
   state: {
     on: boolean;
+    bri: number;
   };
   type: string;
   name: string;

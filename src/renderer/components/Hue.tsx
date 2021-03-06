@@ -1,7 +1,14 @@
 import * as React from "react";
 import { Device } from "../../Contract";
 import { makeStyles } from "@material-ui/core/styles";
-import { Card, CardContent, Grid, Switch, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Grid,
+  Slider,
+  Switch,
+  Typography,
+} from "@material-ui/core";
 
 export interface HueProps {
   ip: string;
@@ -77,6 +84,12 @@ export const HueCard: React.FC<{
           onChange={() =>
             props.updateDevice(props.device.id, !props.device.state.on)
           }
+        />
+        <Slider
+          defaultValue={props.device.state.bri}
+          valueLabelDisplay="auto"
+          min={1}
+          max={254}
         />
       </CardContent>
     </Card>
