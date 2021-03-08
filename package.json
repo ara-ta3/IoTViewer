@@ -36,7 +36,7 @@
     "@types/node-fetch": "^2.5.7",
     "electron": "^10.2.0",
     "electron-store": "^6.0.0",
-    "fp-ts": "^2.9.3",
+    "fp-ts": "^2.9.5",
     "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
