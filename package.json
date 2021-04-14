@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@types/node-fetch": "^2.5.10",
-    "electron": "^12.0.2",
+    "electron": "^12.0.4",
     "electron-store": "^7.0.3",
     "fp-ts": "^2.9.5",
     "node-fetch": "^2.6.1",
