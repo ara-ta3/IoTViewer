@@ -7,14 +7,4 @@ updates:
     time: "15:00"
     timezone: Asia/Tokyo
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: fp-ts
-    versions:
-    - 2.10.3
-  - dependency-name: ts-loader
-    versions:
-    - 9.0.0
-    - 9.1.0
-  - dependency-name: webpack-cli
-    versions:
-    - 4.5.0
+
