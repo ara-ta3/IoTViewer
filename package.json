@@ -1,12 +1,36 @@
 {
-  "name": "hueviewer",
-  "version": "1.0.0",
+  "name": "HueViewer",
+  "version": "0.0.1",
   "description": "",
   "main": "__dist/main.js",
+  "build": {
+    "appId": "com.electron.hueviewer",
+    "directories": {
+      "output": "__build"
+    },
+    "files": [
+      "__dist"
+    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
   "scripts": {
     "electron": "electron .",
     "build": "webpack --display-error-details",
-    "build-watch": "webpack --display-error-details -w"
+    "build-watch": "webpack --display-error-details -w",
+    "electron-build-mac": "electron-builder --mac --x64",
+    "electron-build-mac-app": "electron-builder --mac --x64 --dir",
+    "electron-build-win": "electron-builder --win --x64"
   },
   "repository": {
     "type": "git",
@@ -26,6 +50,8 @@
     "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.3",
     "@types/react-redux": "^7.1.16",
+    "electron": "^12.0.6",
+    "electron-builder": "^22.10.5",
     "prettier": "^2.2.1",
     "ts-loader": "^8.1.0",
     "typescript": "^4.2.4",
@@ -34,7 +60,6 @@
   },
   "dependencies": {
     "@types/node-fetch": "^2.5.10",
-    "electron": "^12.0.5",
     "electron-store": "^8.0.0",
     "fp-ts": "^2.10.4",
     "node-fetch": "^2.6.1",
