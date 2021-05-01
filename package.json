@@ -1,12 +1,35 @@
 {
-  "name": "hueviewer",
-  "version": "1.0.0",
+  "name": "HueViewer",
+  "version": "0.0.1",
   "description": "",
   "main": "__dist/main.js",
+  "build": {
+      "appId": "com.electron.hueviewer",
+      "directories": {
+          "output": "__build"
+      },
+      "files": [
+          "__dist"
+      ],
+      "mac": {
+          "target": [
+              "dmg"
+          ]
+      },
+      "win": {
+          "target": "nsis"
+      },
+      "nsis":{
+          "oneClick": false,
+          "allowToChangeInstallationDirectory": true
+    }
+  },
   "scripts": {
     "electron": "electron .",
     "build": "webpack --display-error-details",
-    "build-watch": "webpack --display-error-details -w"
+    "build-watch": "webpack --display-error-details -w",
+    "electron-build-mac": "electron-builder --mac --x64",
+    "electron-build-win": "electron-builder --win --x64"
   },
   "repository": {
     "type": "git",
