@@ -29,6 +29,7 @@
     "build": "webpack --display-error-details",
     "build-watch": "webpack --display-error-details -w",
     "electron-build-mac": "electron-builder --mac --x64",
+    "electron-build-mac-app": "electron-builder --mac --x64 --dir",
     "electron-build-win": "electron-builder --win --x64"
   },
   "repository": {
