@@ -9,6 +9,7 @@ import {
   Switch,
   Typography,
 } from "@material-ui/core";
+import { UpdateHueStateRequest } from "../../HueGateway";
 
 export interface HueProps {
   ip: string;
@@ -18,7 +19,7 @@ export interface HueProps {
     endpoint: string,
     userName: string,
     deviceId: number,
-    on: boolean
+    req: UpdateHueStateRequest
   ) => any;
 }
 
@@ -40,8 +41,13 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
     <Grid item xs={4}>
       <HueCard
         device={d}
-        updateDevice={(deviceId, on) =>
-          props.updateDevice(`http://${props.ip}`, props.userName, deviceId, on)
+        updateDevice={(deviceId, req: UpdateHueStateRequest) =>
+          props.updateDevice(
+            `http://${props.ip}`,
+            props.userName,
+            deviceId,
+            req
+          )
         }
       />
     </Grid>
@@ -58,10 +64,10 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
 
 export const HueCard: React.FC<{
   device: Device;
-  updateDevice: (deviceId: number, on: boolean) => any;
+  updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
 }> = (props: {
   device: Device;
-  updateDevice: (deviceId: number, on: boolean) => any;
+  updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
 }) => {
   const classes = useStyles();
 
@@ -82,7 +88,10 @@ export const HueCard: React.FC<{
           color="primary"
           name="Switch"
           onChange={() =>
-            props.updateDevice(props.device.id, !props.device.state.on)
+            // FIXME Domainにstate -> requestの関数用意して、ここで変換するかなやんだけど、なんか設計が違う気がしたのでまた今度考えたい
+            props.updateDevice(props.device.id, {
+              on: !props.device.state.on,
+            })
           }
         />
         <Slider
@@ -90,6 +99,13 @@ export const HueCard: React.FC<{
           valueLabelDisplay="auto"
           min={1}
           max={254}
+          onChange={(_, v) => {
+            if (typeof v === "number") {
+              props.updateDevice(props.device.id, {
+                bri: v,
+              });
+            }
+          }}
         />
       </CardContent>
     </Card>

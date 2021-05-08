@@ -76,13 +76,14 @@ export async function updateDevice(
   apiEndpoint: string,
   userName: string,
   deviceId: number,
-  on: boolean
+  req: UpdateHueStateRequest
 ): Promise<Option<UpdateDeviceSuccess | UpdateDeviceError>> {
   const url = `${apiEndpoint}/api/${userName}/lights/${deviceId}/state`;
   const res = await fetch(url, {
     method: "PUT",
     body: JSON.stringify({
-      on: on,
+      on: req.on,
+      bri: req.bri,
     }),
   });
   const json: (UpdateDeviceSuccess | UpdateDeviceError)[] = await res.json();
@@ -99,4 +100,9 @@ export interface UpdateDeviceError {
 
 export interface UpdateDeviceSuccess {
   success: object;
+}
+
+export interface UpdateHueStateRequest {
+  on?: boolean;
+  bri?: number;
 }
