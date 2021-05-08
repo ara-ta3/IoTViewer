@@ -17,12 +17,12 @@
       ]
     },
     "win": {
-        "target": {
-            "target": "zip",
-            "arch": [
-                "x64"
-            ]
-        }
+      "target": {
+        "target": "zip",
+        "arch": [
+          "x64"
+        ]
+      }
     },
     "nsis": {
       "oneClick": false,
@@ -31,8 +31,8 @@
   },
   "scripts": {
     "electron": "electron .",
-    "build": "webpack --display-error-details",
-    "build-watch": "webpack --display-error-details -w",
+    "build": "webpack",
+    "build-watch": "webpack -w",
     "electron-build-mac": "electron-builder --mac --x64",
     "electron-build-mac-app": "electron-builder --mac --x64 --dir",
     "electron-build-win": "electron-builder --win --x64"
@@ -61,7 +61,7 @@
     "ts-loader": "^8.1.0",
     "typescript": "^4.2.4",
     "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "4.7.0"
   },
   "dependencies": {
     "@types/node-fetch": "^2.5.10",
