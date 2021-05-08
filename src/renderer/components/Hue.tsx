@@ -89,7 +89,7 @@ export const HueCard: React.FC<{
           name="Switch"
           onChange={() =>
             props.updateDevice(props.device.id, {
-              on: props.device.state.on!,
+              on: !props.device.state.on,
             })
           }
         />
