@@ -88,6 +88,7 @@ export const HueCard: React.FC<{
           color="primary"
           name="Switch"
           onChange={() =>
+            // FIXME Domainにstate -> requestの関数用意して、ここで変換するかなやんだけど、なんか設計が違う気がしたのでまた今度考えたい
             props.updateDevice(props.device.id, {
               on: !props.device.state.on,
             })
@@ -98,6 +99,13 @@ export const HueCard: React.FC<{
           valueLabelDisplay="auto"
           min={1}
           max={254}
+          onChange={(_, v) => {
+            if (typeof v === "number") {
+              props.updateDevice(props.device.id, {
+                bri: v,
+              });
+            }
+          }}
         />
       </CardContent>
     </Card>

@@ -2,13 +2,15 @@ import * as ElectronStore from "electron-store";
 
 export interface Device {
   id: number;
-  state: {
-    on: boolean;
-    bri: number;
-  };
+  state: DeviceState;
   type: string;
   name: string;
   productName: string;
+}
+
+export interface DeviceState {
+  on: boolean;
+  bri: number;
 }
 
 interface StoreType {

@@ -83,6 +83,7 @@ export async function updateDevice(
     method: "PUT",
     body: JSON.stringify({
       on: req.on,
+      bri: req.bri,
     }),
   });
   const json: (UpdateDeviceSuccess | UpdateDeviceError)[] = await res.json();
@@ -102,5 +103,6 @@ export interface UpdateDeviceSuccess {
 }
 
 export interface UpdateHueStateRequest {
-  on: boolean;
+  on?: boolean;
+  bri?: number;
 }
