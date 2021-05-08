@@ -18,3 +18,7 @@ interface StoreType {
 export const electronStore = new ElectronStore<StoreType>({
   cwd: __dirname,
 });
+
+export interface UpdateHueStateRequest {
+  on: boolean;
+}

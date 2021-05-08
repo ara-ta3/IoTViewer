@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { RootState } from "../reducers";
 import { HueDevices } from "../components/Hue";
 import { updateLight } from "../actions/HueAction";
+import { UpdateHueStateRequest } from "../../Contract";
 
 const mapStateToProps = (state: RootState) => ({
   ip: state.hue.ip || "",
@@ -15,8 +16,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     endpoint: string,
     userName: string,
     deviceId: number,
-    on: boolean
-  ) => dispatch(updateLight(endpoint, userName, deviceId, on)),
+    req: UpdateHueStateRequest
+  ) => dispatch(updateLight(endpoint, userName, deviceId, req)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HueDevices);

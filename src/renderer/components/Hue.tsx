@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Device } from "../../Contract";
+import { Device, UpdateHueStateRequest } from "../../Contract";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -18,7 +18,7 @@ export interface HueProps {
     endpoint: string,
     userName: string,
     deviceId: number,
-    on: boolean
+    req: UpdateHueStateRequest
   ) => any;
 }
 
@@ -40,8 +40,13 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
     <Grid item xs={4}>
       <HueCard
         device={d}
-        updateDevice={(deviceId, on) =>
-          props.updateDevice(`http://${props.ip}`, props.userName, deviceId, on)
+        updateDevice={(deviceId, req: UpdateHueStateRequest) =>
+          props.updateDevice(
+            `http://${props.ip}`,
+            props.userName,
+            deviceId,
+            req
+          )
         }
       />
     </Grid>
@@ -58,10 +63,10 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
 
 export const HueCard: React.FC<{
   device: Device;
-  updateDevice: (deviceId: number, on: boolean) => any;
+  updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
 }> = (props: {
   device: Device;
-  updateDevice: (deviceId: number, on: boolean) => any;
+  updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
 }) => {
   const classes = useStyles();
 
@@ -82,7 +87,9 @@ export const HueCard: React.FC<{
           color="primary"
           name="Switch"
           onChange={() =>
-            props.updateDevice(props.device.id, !props.device.state.on)
+            props.updateDevice(props.device.id, {
+              on: props.device.state.on!,
+            })
           }
         />
         <Slider

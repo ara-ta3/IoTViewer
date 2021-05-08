@@ -7,7 +7,7 @@ import {
   RegisterAppError,
   RegisterAppSuccess,
 } from "../../HueGateway";
-import { Device } from "../../Contract";
+import { Device, UpdateHueStateRequest } from "../../Contract";
 import { fold, Option } from "fp-ts/Option";
 import { UpdateDeviceSuccess } from "../../HueGateway";
 import { UpdateDeviceError } from "../../HueGateway";
@@ -234,11 +234,11 @@ export const updateLight = (
   endpoint: string,
   name: string,
   deviceId: number,
-  on: boolean
+  req: UpdateHueStateRequest
 ) => {
   return (dispatch: Dispatch<AnyAction>) => {
     dispatch(updateLightStart());
-    GatewayUpdateDevice(endpoint, name, deviceId, on)
+    GatewayUpdateDevice(endpoint, name, deviceId, req)
       .then((r: Option<UpdateDeviceSuccess | UpdateDeviceError>) => {
         fold<UpdateDeviceSuccess | UpdateDeviceError, UpdateLightAction>(
           () => dispatch(updateLightFailed()),

@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { Device } from "./Contract";
+import { Device, UpdateHueStateRequest } from "./Contract";
 import { fromNullable, map, Option } from "fp-ts/Option";
 
 interface DiscoveryMeethueResponseValue {
@@ -76,13 +76,13 @@ export async function updateDevice(
   apiEndpoint: string,
   userName: string,
   deviceId: number,
-  on: boolean
+  req: UpdateHueStateRequest
 ): Promise<Option<UpdateDeviceSuccess | UpdateDeviceError>> {
   const url = `${apiEndpoint}/api/${userName}/lights/${deviceId}/state`;
   const res = await fetch(url, {
     method: "PUT",
     body: JSON.stringify({
-      on: on,
+      on: req.on,
     }),
   });
   const json: (UpdateDeviceSuccess | UpdateDeviceError)[] = await res.json();
