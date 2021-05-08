@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { Device, UpdateHueStateRequest } from "./Contract";
+import { Device } from "./Contract";
 import { fromNullable, map, Option } from "fp-ts/Option";
 
 interface DiscoveryMeethueResponseValue {
@@ -99,4 +99,8 @@ export interface UpdateDeviceError {
 
 export interface UpdateDeviceSuccess {
   success: object;
+}
+
+export interface UpdateHueStateRequest {
+  on: boolean;
 }

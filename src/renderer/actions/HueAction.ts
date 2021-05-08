@@ -6,8 +6,9 @@ import {
   updateDevice as GatewayUpdateDevice,
   RegisterAppError,
   RegisterAppSuccess,
+  UpdateHueStateRequest,
 } from "../../HueGateway";
-import { Device, UpdateHueStateRequest } from "../../Contract";
+import { Device } from "../../Contract";
 import { fold, Option } from "fp-ts/Option";
 import { UpdateDeviceSuccess } from "../../HueGateway";
 import { UpdateDeviceError } from "../../HueGateway";

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { RootState } from "../reducers";
 import { HueDevices } from "../components/Hue";
 import { updateLight } from "../actions/HueAction";
-import { UpdateHueStateRequest } from "../../Contract";
+import { UpdateHueStateRequest } from "../../HueGateway";
 
 const mapStateToProps = (state: RootState) => ({
   ip: state.hue.ip || "",

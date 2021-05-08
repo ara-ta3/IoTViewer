@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Device, UpdateHueStateRequest } from "../../Contract";
+import { Device } from "../../Contract";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -9,6 +9,7 @@ import {
   Switch,
   Typography,
 } from "@material-ui/core";
+import { UpdateHueStateRequest } from "../../HueGateway";
 
 export interface HueProps {
   ip: string;
