@@ -49,7 +49,7 @@
   },
   "homepage": "https://github.com/ara-ta3/HueViewer#readme",
   "devDependencies": {
-    "@material-ui/core": "^4.12.1",
+    "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.11.2",
     "@types/electron": "^1.6.10",
     "@types/node": "^16.4.1",
