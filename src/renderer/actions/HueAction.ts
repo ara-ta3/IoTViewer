@@ -111,7 +111,7 @@ const updateIPFailed: ActionCreator<UpdateIPFailed> = () => ({
   type: UPDATE_IP_FAILED,
 });
 
-const updateIP = () => {
+export const fetchIp = () => {
   return (dispatch: Dispatch<AnyAction>) => {
     dispatch(updateIPStart());
     GatewayFetchHueApiEndpoint()
