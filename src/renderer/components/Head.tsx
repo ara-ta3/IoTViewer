@@ -1,7 +1,13 @@
 import * as React from "react";
-import { Box, Button, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { Device } from "../../Contract";
+import {
+  Box,
+  Button,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
 
 export interface HeadProps {
   name: string;
@@ -13,80 +19,82 @@ export interface HeadProps {
   fetchDevices: (name: string) => any;
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: theme.spacing(4, 0),
-  },
-  base: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-}));
-
 export const Head: React.FC<HeadProps> = (props: HeadProps) => {
-  const s = useStyles();
   React.useEffect(() => {
     if (props.name !== "") {
       props.fetchDevices(props.name);
     }
   }, [props.name]);
   React.useEffect(props.fetchIp, [props.ip]);
+  const nStep = props.name === "" ? 0 : 1;
 
   return (
-    <div className={s.root}>
-      <Box className={s.base}>
-        <Typography variant="h6" component="h3">
-          Hue Device Manager
-        </Typography>
-        <Typography variant="h6" component="h3">
-          IP Address: {props.ip}
-        </Typography>
-        <Typography variant="h6" component="h3">
-          User Name: {props.name}
-        </Typography>
-        <Typography variant="subtitle1" component="h3" color={"error"}>
-          {props.userNameDescription}
-        </Typography>
+    <Box my={2}>
+      <StepView nStep={nStep} error={props.userNameDescription} />
+      <Box sx={{ width: "100%", textAlign: "center" }} my={2}>
+        <ActionButton {...props} />
       </Box>
-      <Box className={s.base}>
-        <RegisterButton register={props.registerApp} />
-        <FetchButton
-          ip={props.ip}
-          name={props.name}
-          fetchDevices={props.fetchDevices}
-        />
-      </Box>
-    </div>
+    </Box>
   );
 };
 
-const RegisterButton: React.FC<{
-  register: () => any;
-}> = ({ register }) => {
+const StepView: React.FC<{
+  nStep: number;
+  error: string;
+}> = ({ nStep, error }) => {
+  let FirstLabel = (
+    <StepLabel>
+      Push Hue Bridge and click REGISTER APPLICATION to register to your Hue
+      Bridge
+    </StepLabel>
+  );
+
+  if (error.length > 0) {
+    const ErrorMessage = (
+      <Box sx={{ textAlign: "center" }}>
+        <Typography variant="h6" color="error">
+          {error}
+        </Typography>
+      </Box>
+    );
+    FirstLabel = (
+      <StepLabel optional={ErrorMessage} error={true}>
+        Push Hue Bridge and click REGISTER APPLICATION to register to your Hue
+        Bridge
+      </StepLabel>
+    );
+  }
   return (
-    <Button variant="contained" color="primary" onClick={() => register()}>
-      Register Application
-    </Button>
+    <Box sx={{ width: "80%", height: "100%", mx: "auto" }} my={2}>
+      <Stepper activeStep={nStep} alternativeLabel>
+        <Step key={1}>{FirstLabel}</Step>
+        <Step key={2}>
+          <StepLabel>Application Registered</StepLabel>
+        </Step>
+      </Stepper>
+    </Box>
   );
 };
 
-const FetchButton: React.FC<{
+const ActionButton: React.FC<{
   name: string;
-  ip: string;
+  registerApp: () => any;
   fetchDevices: (name: string) => any;
-}> = ({ name, ip, fetchDevices }) => {
-  return name.length === 0 ? (
-    <Button variant="contained" color="primary" disabled>
-      Fetch Devices
-    </Button>
-  ) : (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={() => fetchDevices(name)}
-    >
-      Fetch Devices
+}> = ({ name, registerApp, fetchDevices }) => {
+  if (name.length > 0) {
+    return (
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => fetchDevices(name)}
+      >
+        Fetch Devices
+      </Button>
+    );
+  }
+  return (
+    <Button variant="outlined" color="primary" onClick={() => registerApp()}>
+      Register Application
     </Button>
   );
 };

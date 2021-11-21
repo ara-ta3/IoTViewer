@@ -4,6 +4,7 @@ import {
   HueAction,
   REGISTER_APP_FAILED,
   REGISTER_APP_FINISHED,
+  REGISTER_APP_START,
   UPDATE_IP_FINISHED,
 } from "../actions/HueAction";
 import { Device } from "../../Contract";
@@ -37,7 +38,11 @@ export const textReducer: Reducer<HueUserState> = (
         ...state,
         devices: action.devices,
       };
-
+    case REGISTER_APP_START:
+      return {
+        ...state,
+        userNameDescription: "",
+      };
     case REGISTER_APP_FINISHED:
       localStorage.setItem("hueName", action.userName);
       return {
