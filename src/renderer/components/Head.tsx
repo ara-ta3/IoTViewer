@@ -20,11 +20,6 @@ export interface HeadProps {
 }
 
 export const Head: React.FC<HeadProps> = (props: HeadProps) => {
-  React.useEffect(() => {
-    if (props.name !== "") {
-      props.fetchDevices(props.name);
-    }
-  }, [props.name]);
   React.useEffect(props.fetchIp, [props.ip]);
   const nStep = props.name === "" ? 0 : 1;
 

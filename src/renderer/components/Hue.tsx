@@ -1,8 +1,10 @@
 import * as React from "react";
-import { Device } from "../../Contract";
+import { Device, Group } from "../../Contract";
 import {
+  Box,
   Card,
   CardContent,
+  CircularProgress,
   Grid,
   Slider,
   Switch,
@@ -13,16 +15,36 @@ import { UpdateHueStateRequest } from "../../HueGateway";
 export interface HueProps {
   ip: string;
   userName: string;
-  devices: Device[];
+  devices: Device[] | null;
+  groups: Group[] | null;
   updateDevice: (
     endpoint: string,
     userName: string,
     deviceId: number,
     req: UpdateHueStateRequest
   ) => any;
+  fetchDevices: (name: string) => any;
+  fetchGroups: (name: string) => any;
 }
 
 export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
+  React.useEffect(
+    () => props.userName !== "" && props.fetchDevices(props.userName),
+    [props.userName]
+  );
+  React.useEffect(
+    () => props.userName !== "" && props.fetchGroups(props.userName),
+    [props.userName]
+  );
+
+  if (props.devices === null || props.groups === null) {
+    return (
+      <Box sx={{ textAlign: "center" }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   const devices = props.devices.map((d) => (
     <Grid item xs={4} key={d.id}>
       <HueCard
