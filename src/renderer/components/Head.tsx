@@ -38,8 +38,9 @@ const StepView: React.FC<{
 }> = ({ nStep, error }) => {
   let FirstLabel = (
     <StepLabel>
-      Push Hue Bridge and click REGISTER APPLICATION to register to your Hue
-      Bridge
+      {nStep === 0
+        ? "Push Hue Bridge and click REGISTER APPLICATION to register to your Hue Bridge"
+        : "settings completed"}
     </StepLabel>
   );
 
