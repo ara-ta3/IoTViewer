@@ -26,8 +26,7 @@ export const Head: React.FC<HeadProps> = (props: HeadProps) => {
     <Box my={2}>
       <StepView nStep={nStep} />
       <Box sx={{ width: "100%", textAlign: "center" }} my={2}>
-        <RegisterButton name={props.name} register={props.registerApp} />
-        <FetchButton name={props.name} fetchDevices={props.fetchDevices} />
+        <ActionButton {...props} />
       </Box>
     </Box>
   );
@@ -52,33 +51,21 @@ const StepView: React.FC<{
   );
 };
 
-const RegisterButton: React.FC<{
+const ActionButton: React.FC<{
   name: string;
-  register: () => any;
-}> = ({ name, register }) => {
-  if (name !== "") {
-    return <div />;
+  registerApp: () => any;
+  fetchDevices: (name: string) => any;
+}> = ({ name, registerApp, fetchDevices }) => {
+  if (name.length > 0) {
+    return (
+      <Button color="primary" onClick={() => fetchDevices(name)}>
+        Fetch Devices
+      </Button>
+    );
   }
   return (
-    <Button variant="outlined" color="primary" onClick={() => register()}>
+    <Button variant="outlined" color="primary" onClick={() => registerApp()}>
       Register Application
-    </Button>
-  );
-};
-
-const FetchButton: React.FC<{
-  name: string;
-  fetchDevices: (name: string) => any;
-}> = ({ name, fetchDevices }) => {
-  return name.length === 0 ? (
-    <div />
-  ) : (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={() => fetchDevices(name)}
-    >
-      Fetch Devices
     </Button>
   );
 };
