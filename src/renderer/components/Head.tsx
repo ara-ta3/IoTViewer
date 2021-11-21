@@ -16,7 +16,6 @@ export interface HeadProps {
   userNameDescription: string;
   registerApp: () => any;
   fetchIp: () => any;
-  fetchDevices: (name: string) => any;
 }
 
 export const Head: React.FC<HeadProps> = (props: HeadProps) => {
@@ -71,18 +70,9 @@ const StepView: React.FC<{
 const ActionButton: React.FC<{
   name: string;
   registerApp: () => any;
-  fetchDevices: (name: string) => any;
-}> = ({ name, registerApp, fetchDevices }) => {
+}> = ({ name, registerApp }) => {
   if (name.length > 0) {
-    return (
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={() => fetchDevices(name)}
-      >
-        Fetch Devices
-      </Button>
-    );
+    return <div />;
   }
   return (
     <Button variant="outlined" color="primary" onClick={() => registerApp()}>
