@@ -8,7 +8,7 @@ import {
   Slider,
   Switch,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { UpdateHueStateRequest } from "../../HueGateway";
 
 export interface HueProps {
