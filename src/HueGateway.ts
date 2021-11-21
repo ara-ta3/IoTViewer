@@ -14,11 +14,13 @@ interface DevicesResponse {
 }
 
 interface GroupsResponse {
-  [key: number]: {
-    class: string;
-    name: string;
-    lights: string[];
-  };
+  [key: number]: GroupsResponseValue;
+}
+
+interface GroupsResponseValue {
+  class: string;
+  name: string;
+  lights: string[];
 }
 
 function responseToDevices(res: DevicesResponse): Device[] {
@@ -34,11 +36,11 @@ function responseToDevices(res: DevicesResponse): Device[] {
 }
 
 function responseToGroups(res: GroupsResponse): Group[] {
-  return Object.values(res).map((r) => {
+  return Object.values(res).map((r: GroupsResponseValue) => {
     return {
       name: r.name,
       class: r.class,
-      lights: r.lights.map(parseInt),
+      lights: r.lights.map((i) => parseInt(i, 10)),
     };
   });
 }
