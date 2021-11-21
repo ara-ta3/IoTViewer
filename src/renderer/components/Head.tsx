@@ -40,7 +40,8 @@ const StepView: React.FC<{
       <Stepper activeStep={nStep} alternativeLabel>
         <Step key={1}>
           <StepLabel>
-            Push Hue Bridge And Click register button to your Hue Bridge
+            Push Hue Bridge and click REGISTER APPLICATION to register to your
+            Hue Bridge
           </StepLabel>
         </Step>
         <Step key={2}>
