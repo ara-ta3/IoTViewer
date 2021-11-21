@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Box, Button, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { Device } from "../../Contract";
+import { Box, Button, Step, StepLabel, Stepper } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
 
 export interface HeadProps {
   name: string;
@@ -13,59 +13,54 @@ export interface HeadProps {
   fetchDevices: (name: string) => any;
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: theme.spacing(4, 0),
-  },
-  base: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-}));
-
 export const Head: React.FC<HeadProps> = (props: HeadProps) => {
-  const s = useStyles();
   React.useEffect(() => {
     if (props.name !== "") {
       props.fetchDevices(props.name);
     }
   }, [props.name]);
   React.useEffect(props.fetchIp, [props.ip]);
+  const nStep = props.name === "" ? 0 : 1;
 
   return (
-    <div className={s.root}>
-      <Box className={s.base}>
-        <Typography variant="h6" component="h3">
-          Hue Device Manager
-        </Typography>
-        <Typography variant="h6" component="h3">
-          IP Address: {props.ip}
-        </Typography>
-        <Typography variant="h6" component="h3">
-          User Name: {props.name}
-        </Typography>
-        <Typography variant="subtitle1" component="h3" color={"error"}>
-          {props.userNameDescription}
-        </Typography>
+    <Box my={2}>
+      <StepView nStep={nStep} />
+      <Box sx={{ width: "100%", textAlign: "center" }} my={2}>
+        <RegisterButton name={props.name} register={props.registerApp} />
+        <FetchButton name={props.name} fetchDevices={props.fetchDevices} />
       </Box>
-      <Box className={s.base}>
-        <RegisterButton register={props.registerApp} />
-        <FetchButton
-          ip={props.ip}
-          name={props.name}
-          fetchDevices={props.fetchDevices}
-        />
-      </Box>
-    </div>
+    </Box>
+  );
+};
+
+const StepView: React.FC<{
+  nStep: number;
+}> = ({ nStep }) => {
+  return (
+    <Box sx={{ width: "50%", height: "100%", mx: "auto" }} my={2}>
+      <Stepper activeStep={nStep} alternativeLabel>
+        <Step key={1}>
+          <StepLabel>
+            Push Hue Bridge And Click register button to your Hue Bridge
+          </StepLabel>
+        </Step>
+        <Step key={2}>
+          <StepLabel>Application Registered</StepLabel>
+        </Step>
+      </Stepper>
+    </Box>
   );
 };
 
 const RegisterButton: React.FC<{
+  name: string;
   register: () => any;
-}> = ({ register }) => {
+}> = ({ name, register }) => {
+  if (name !== "") {
+    return <div />;
+  }
   return (
-    <Button variant="contained" color="primary" onClick={() => register()}>
+    <Button variant="outlined" color="primary" onClick={() => register()}>
       Register Application
     </Button>
   );
@@ -73,13 +68,10 @@ const RegisterButton: React.FC<{
 
 const FetchButton: React.FC<{
   name: string;
-  ip: string;
   fetchDevices: (name: string) => any;
-}> = ({ name, ip, fetchDevices }) => {
+}> = ({ name, fetchDevices }) => {
   return name.length === 0 ? (
-    <Button variant="contained" color="primary" disabled>
-      Fetch Devices
-    </Button>
+    <div />
   ) : (
     <Button
       variant="contained"
