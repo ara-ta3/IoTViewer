@@ -52,7 +52,7 @@ const StepView: React.FC<{
   if (error.length > 0) {
     const ErrorMessage = (
       <Box sx={{ textAlign: "center" }}>
-        <Typography variant="caption" color="error">
+        <Typography variant="h6" color="error">
           {error}
         </Typography>
       </Box>
