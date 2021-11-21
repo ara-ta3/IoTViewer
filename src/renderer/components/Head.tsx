@@ -83,7 +83,11 @@ const ActionButton: React.FC<{
 }> = ({ name, registerApp, fetchDevices }) => {
   if (name.length > 0) {
     return (
-      <Button color="primary" onClick={() => fetchDevices(name)}>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => fetchDevices(name)}
+      >
         Fetch Devices
       </Button>
     );
