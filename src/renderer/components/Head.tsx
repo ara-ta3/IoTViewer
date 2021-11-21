@@ -9,6 +9,7 @@ export interface HeadProps {
   devices: Device[] | null;
   userNameDescription: string;
   registerApp: () => any;
+  fetchIp: () => any;
   fetchDevices: (name: string) => any;
 }
 
@@ -25,6 +26,13 @@ const useStyles = makeStyles((theme) => ({
 
 export const Head: React.FC<HeadProps> = (props: HeadProps) => {
   const s = useStyles();
+  React.useEffect(() => {
+    if (props.name !== "") {
+      props.fetchDevices(props.name);
+    }
+  }, [props.name]);
+  React.useEffect(props.fetchIp, [props.ip]);
+
   return (
     <div className={s.root}>
       <Box className={s.base}>

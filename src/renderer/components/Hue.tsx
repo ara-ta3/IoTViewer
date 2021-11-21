@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
   const classes = useStyles();
   const devices = props.devices.map((d) => (
-    <Grid item xs={4}>
+    <Grid item xs={4} key={d.id}>
       <HueCard
         device={d}
         updateDevice={(deviceId, req: UpdateHueStateRequest) =>
