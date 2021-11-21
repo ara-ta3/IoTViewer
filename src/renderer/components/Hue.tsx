@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Device } from "../../Contract";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
   CardContent,
@@ -23,20 +22,7 @@ export interface HueProps {
   ) => any;
 }
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  grid: {
-    flexGrow: 1,
-  },
-  type: {
-    fontSize: 14,
-  },
-});
-
 export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
-  const classes = useStyles();
   const devices = props.devices.map((d) => (
     <Grid item xs={4} key={d.id}>
       <HueCard
@@ -54,11 +40,9 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
   ));
 
   return (
-    <div className={classes.grid}>
-      <Grid container spacing={3}>
-        {devices}
-      </Grid>
-    </div>
+    <Grid container spacing={3}>
+      {devices}
+    </Grid>
   );
 };
 
@@ -69,12 +53,10 @@ export const HueCard: React.FC<{
   device: Device;
   updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
 }) => {
-  const classes = useStyles();
-
   return (
-    <Card className={classes.root}>
+    <Card>
       <CardContent>
-        <Typography className={classes.type} color="textSecondary" gutterBottom>
+        <Typography color="textSecondary" gutterBottom>
           {props.device.type}
         </Typography>
         <Typography variant="h5" component="h2">
