@@ -1,5 +1,4 @@
 import * as ElectronStore from "electron-store";
-import { string } from "fp-ts";
 
 export interface Device {
   id: number;
