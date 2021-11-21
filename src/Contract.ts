@@ -1,4 +1,5 @@
 import * as ElectronStore from "electron-store";
+import { string } from "fp-ts";
 
 export interface Device {
   id: number;
@@ -6,6 +7,12 @@ export interface Device {
   type: string;
   name: string;
   productName: string;
+}
+
+export interface Group {
+  name: string;
+  class: string;
+  lights: number[];
 }
 
 export interface DeviceState {
