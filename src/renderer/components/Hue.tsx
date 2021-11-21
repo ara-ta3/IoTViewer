@@ -36,8 +36,10 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
     () => props.userName !== "" && props.fetchGroups(props.userName),
     [props.userName]
   );
+  const devices = props.devices;
+  const groups = props.groups;
 
-  if (props.devices === null || props.groups === null) {
+  if (devices === null || groups === null) {
     return (
       <Box sx={{ textAlign: "center" }}>
         <CircularProgress />
@@ -45,7 +47,7 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
     );
   }
 
-  const devices = props.devices.map((d) => (
+  const ds = devices.map((d) => (
     <Grid item xs={4} key={d.id}>
       <HueCard
         device={d}
@@ -61,10 +63,33 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
     </Grid>
   ));
 
-  return (
-    <Grid container spacing={3}>
-      {devices}
+  const gs = groups.map((g, i) => (
+    <Grid item xs={12} key={i}>
+      <GroupCard group={g} devices={devices} />
     </Grid>
+  ));
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={2}>
+        {gs}
+      </Grid>
+    </Box>
+  );
+};
+
+const GroupCard: React.FC<{
+  group: Group;
+  devices: Device[];
+}> = (props: { group: Group; devices: Device[] }) => {
+  return (
+    <Card variant="outlined">
+      <CardContent>
+        <Typography variant="h5" component="h2">
+          {props.group.name}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -76,7 +101,7 @@ export const HueCard: React.FC<{
   updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
 }) => {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
           {props.device.type}
