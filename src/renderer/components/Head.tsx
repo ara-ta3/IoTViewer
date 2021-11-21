@@ -68,9 +68,6 @@ const StepView: React.FC<{
     <Box sx={{ width: "80%", height: "100%", mx: "auto" }} my={2}>
       <Stepper activeStep={nStep} alternativeLabel>
         <Step key={1}>{FirstLabel}</Step>
-        <Step key={2}>
-          <StepLabel>Application Registered</StepLabel>
-        </Step>
       </Stepper>
     </Box>
   );
