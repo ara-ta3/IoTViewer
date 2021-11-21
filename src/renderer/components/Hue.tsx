@@ -65,7 +65,18 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
 
   const gs = groups.map((g, i) => (
     <Grid item xs={12} key={i}>
-      <GroupCard group={g} devices={devices} />
+      <GroupCard
+        group={g}
+        devices={devices}
+        updateDevice={(deviceId, req: UpdateHueStateRequest) =>
+          props.updateDevice(
+            `http://${props.ip}`,
+            props.userName,
+            deviceId,
+            req
+          )
+        }
+      />
     </Grid>
   ));
 
@@ -81,13 +92,28 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
 const GroupCard: React.FC<{
   group: Group;
   devices: Device[];
-}> = (props: { group: Group; devices: Device[] }) => {
+  updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
+}> = (props: {
+  group: Group;
+  devices: Device[];
+  updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
+}) => {
+  const x = props.devices
+    .filter((d) => props.group.lights.includes(d.id))
+    .map((d) => (
+      <Grid item xs={4} key={d.id}>
+        <HueCard device={d} updateDevice={props.updateDevice} />
+      </Grid>
+    ));
   return (
     <Card variant="outlined">
       <CardContent>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h5" component="h2" mb={2}>
           {props.group.name}
         </Typography>
+        <Grid container spacing={2}>
+          {x}
+        </Grid>
       </CardContent>
     </Card>
   );
