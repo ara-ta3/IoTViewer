@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { Device } from "./Contract";
+import { Device, Group } from "./Contract";
 import { fromNullable, map, Option } from "fp-ts/Option";
 
 interface DiscoveryMeethueResponseValue {
@@ -13,6 +13,16 @@ interface DevicesResponse {
   };
 }
 
+interface GroupsResponse {
+  [key: number]: GroupsResponseValue;
+}
+
+interface GroupsResponseValue {
+  class: string;
+  name: string;
+  lights: string[];
+}
+
 function responseToDevices(res: DevicesResponse): Device[] {
   return Object.keys(res).map((key) => {
     const id = parseInt(key);
@@ -21,6 +31,16 @@ function responseToDevices(res: DevicesResponse): Device[] {
       ...partial,
       id: id,
       productName: partial.productname,
+    };
+  });
+}
+
+function responseToGroups(res: GroupsResponse): Group[] {
+  return Object.values(res).map((r: GroupsResponseValue) => {
+    return {
+      name: r.name,
+      class: r.class,
+      lights: r.lights.map((i) => parseInt(i, 10)),
     };
   });
 }
@@ -70,6 +90,16 @@ export async function fetchDevices(
   const res = await fetch(url);
   const json: DevicesResponse = await res.json();
   return responseToDevices(json);
+}
+
+export async function fetchGroups(
+  apiEndpoint: string,
+  userName: string
+): Promise<Group[]> {
+  const json: GroupsResponse = await (
+    await fetch(`${apiEndpoint}/api/${userName}/groups`)
+  ).json();
+  return responseToGroups(json);
 }
 
 export async function updateDevice(

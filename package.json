@@ -1,6 +1,6 @@
 {
   "name": "HueViewer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "__dist/main.js",
   "build": {
@@ -49,8 +49,6 @@
   },
   "homepage": "https://github.com/ara-ta3/HueViewer#readme",
   "devDependencies": {
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
     "@types/electron": "^1.6.10",
     "@types/node": "^16.11.8",
     "@types/react": "^17.0.35",

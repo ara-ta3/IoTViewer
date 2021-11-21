@@ -4,11 +4,12 @@ import {
   fetchHueApiEndpoint as GatewayFetchHueApiEndpoint,
   registerApp as GatewayRegisterApp,
   updateDevice as GatewayUpdateDevice,
+  fetchGroups as GatewayFetchGroups,
   RegisterAppError,
   RegisterAppSuccess,
   UpdateHueStateRequest,
 } from "../../HueGateway";
-import { Device } from "../../Contract";
+import { Device, Group } from "../../Contract";
 import { fold, Option } from "fp-ts/Option";
 import { UpdateDeviceSuccess } from "../../HueGateway";
 import { UpdateDeviceError } from "../../HueGateway";
@@ -44,6 +45,9 @@ export const REGISTER_APP_FAILED = "REGISTER_APP_FAILED";
 export const UPDATE_LIGHT_START = "UPDATE_LIGHT_START";
 export const UPDATE_LIGHT_FINISHED = "UPDATE_LIGHT_FINISHED";
 export const UPDATE_LIGHT_FAILED = "UPDATE_LIGHT_FAILED";
+export const FETCH_GROUPS_START = "FETCH_GROUPS_START";
+export const FETCH_GROUPS_FINISHED = "FETCH_GROUPS_FINISHED";
+export const FETCH_GROUPS_FAILED = "FETCH_GROUPS_FAILED";
 
 export interface UpdateIPStart extends Action {
   type: "UPDATE_IP_START";
@@ -96,6 +100,20 @@ export interface UpdateLightFinished extends Action {
 
 export interface UpdateLightFailed extends Action {
   type: "UPDATE_LIGHT_FAILED";
+}
+
+export interface FetchGroupsStart extends Action {
+  type: "FETCH_GROUPS_START";
+}
+
+export interface FetchGroupsFinished extends Action {
+  type: "FETCH_GROUPS_FINISHED";
+  groups: Group[];
+}
+
+export interface FetchGroupsFailed extends Action {
+  type: "FETCH_GROUPS_FAILED";
+  error: Error;
 }
 
 const updateIPStart: ActionCreator<UpdateIPStart> = () => ({
@@ -259,5 +277,41 @@ export const updateLight = (
         )(r);
       })
       .catch((e: Error) => dispatch(registerAppFailed(e.message)));
+  };
+};
+
+const fetchGroupsStart: ActionCreator<FetchGroupsStart> = () => ({
+  type: FETCH_GROUPS_START,
+});
+
+const fetchGroupsFinished: ActionCreator<FetchGroupsFinished> = (
+  groups: Group[]
+) => ({
+  type: FETCH_GROUPS_FINISHED,
+  groups: groups,
+});
+
+const fetchGroupsFailed: ActionCreator<FetchGroupsFailed> = (error: Error) => ({
+  type: FETCH_GROUPS_FAILED,
+  error: error,
+});
+
+export const fetchGroups = (name: string) => {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    dispatch(updateIPStart());
+    GatewayFetchHueApiEndpoint()
+      .then((r) =>
+        fold<string, any>(
+          () => dispatch(updateIPFailed()),
+          (x) => {
+            dispatch(updateIPFinished(x));
+            dispatch(fetchGroupsStart());
+            GatewayFetchGroups(`http://${x}`, name)
+              .then((r) => dispatch(fetchGroupsFinished(r)))
+              .catch((e: Error) => dispatch(fetchGroupsFailed(e)));
+          }
+        )(r)
+      )
+      .catch(() => dispatch(updateIPFailed()));
   };
 };

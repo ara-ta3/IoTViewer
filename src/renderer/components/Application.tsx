@@ -1,19 +1,11 @@
-import { makeStyles, Paper, Theme } from "@material-ui/core";
+import { Paper } from "@mui/material";
 import * as React from "react";
 import HeadContainer from "../containers/HeadContainer";
 import HueContainer from "../containers/HueContainer";
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    padding: theme.spacing(3),
-  },
-}));
-
 export const Application: React.FC = () => {
-  const classes = useStyles();
-
   return (
-    <Paper className={classes.root}>
+    <Paper sx={{ py: 2 }}>
       <HeadContainer />
       <HueContainer />
     </Paper>

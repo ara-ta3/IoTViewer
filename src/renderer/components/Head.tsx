@@ -16,15 +16,9 @@ export interface HeadProps {
   userNameDescription: string;
   registerApp: () => any;
   fetchIp: () => any;
-  fetchDevices: (name: string) => any;
 }
 
 export const Head: React.FC<HeadProps> = (props: HeadProps) => {
-  React.useEffect(() => {
-    if (props.name !== "") {
-      props.fetchDevices(props.name);
-    }
-  }, [props.name]);
   React.useEffect(props.fetchIp, [props.ip]);
   const nStep = props.name === "" ? 0 : 1;
 
@@ -44,8 +38,9 @@ const StepView: React.FC<{
 }> = ({ nStep, error }) => {
   let FirstLabel = (
     <StepLabel>
-      Push Hue Bridge and click REGISTER APPLICATION to register to your Hue
-      Bridge
+      {nStep === 0
+        ? "Push Hue Bridge and click REGISTER APPLICATION to register to your Hue Bridge"
+        : "settings completed"}
     </StepLabel>
   );
 
@@ -76,18 +71,9 @@ const StepView: React.FC<{
 const ActionButton: React.FC<{
   name: string;
   registerApp: () => any;
-  fetchDevices: (name: string) => any;
-}> = ({ name, registerApp, fetchDevices }) => {
+}> = ({ name, registerApp }) => {
   if (name.length > 0) {
-    return (
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={() => fetchDevices(name)}
-      >
-        Fetch Devices
-      </Button>
-    );
+    return <div />;
   }
   return (
     <Button variant="outlined" color="primary" onClick={() => registerApp()}>

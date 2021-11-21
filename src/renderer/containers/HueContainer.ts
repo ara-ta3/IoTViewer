@@ -2,13 +2,14 @@ import { connect } from "react-redux";
 
 import { RootState } from "../reducers";
 import { HueDevices } from "../components/Hue";
-import { updateLight } from "../actions/HueAction";
+import { fetchDevices, fetchGroups, updateLight } from "../actions/HueAction";
 import { UpdateHueStateRequest } from "../../HueGateway";
 
 const mapStateToProps = (state: RootState) => ({
   ip: state.hue.ip || "",
   userName: state.hue.name || "",
-  devices: state.hue.devices ?? [],
+  devices: state.hue.devices,
+  groups: state.hue.groups,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -18,6 +19,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     deviceId: number,
     req: UpdateHueStateRequest
   ) => dispatch(updateLight(endpoint, userName, deviceId, req)),
+  fetchDevices: (name: string) => dispatch(fetchDevices(name)),
+  fetchGroups: (name: string) => dispatch(fetchGroups(name)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HueDevices);

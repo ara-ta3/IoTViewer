@@ -8,6 +8,12 @@ export interface Device {
   productName: string;
 }
 
+export interface Group {
+  name: string;
+  class: string;
+  lights: number[];
+}
+
 export interface DeviceState {
   on: boolean;
   bri: number;

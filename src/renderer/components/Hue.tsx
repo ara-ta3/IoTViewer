@@ -1,43 +1,53 @@
 import * as React from "react";
-import { Device } from "../../Contract";
-import { makeStyles } from "@material-ui/core/styles";
+import { Device, Group } from "../../Contract";
 import {
+  Box,
   Card,
   CardContent,
+  CircularProgress,
   Grid,
   Slider,
   Switch,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { UpdateHueStateRequest } from "../../HueGateway";
 
 export interface HueProps {
   ip: string;
   userName: string;
-  devices: Device[];
+  devices: Device[] | null;
+  groups: Group[] | null;
   updateDevice: (
     endpoint: string,
     userName: string,
     deviceId: number,
     req: UpdateHueStateRequest
   ) => any;
+  fetchDevices: (name: string) => any;
+  fetchGroups: (name: string) => any;
 }
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  grid: {
-    flexGrow: 1,
-  },
-  type: {
-    fontSize: 14,
-  },
-});
-
 export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
-  const classes = useStyles();
-  const devices = props.devices.map((d) => (
+  React.useEffect(
+    () => props.userName !== "" && props.fetchDevices(props.userName),
+    [props.userName]
+  );
+  React.useEffect(
+    () => props.userName !== "" && props.fetchGroups(props.userName),
+    [props.userName]
+  );
+  const devices = props.devices;
+  const groups = props.groups;
+
+  if (devices === null || groups === null) {
+    return (
+      <Box sx={{ textAlign: "center" }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  const ds = devices.map((d) => (
     <Grid item xs={4} key={d.id}>
       <HueCard
         device={d}
@@ -53,12 +63,59 @@ export const HueDevices: React.FC<HueProps> = (props: HueProps) => {
     </Grid>
   ));
 
+  const gs = groups.map((g, i) => (
+    <Grid item xs={12} key={i}>
+      <GroupCard
+        group={g}
+        devices={devices}
+        updateDevice={(deviceId, req: UpdateHueStateRequest) =>
+          props.updateDevice(
+            `http://${props.ip}`,
+            props.userName,
+            deviceId,
+            req
+          )
+        }
+      />
+    </Grid>
+  ));
+
   return (
-    <div className={classes.grid}>
-      <Grid container spacing={3}>
-        {devices}
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={2}>
+        {gs}
       </Grid>
-    </div>
+    </Box>
+  );
+};
+
+const GroupCard: React.FC<{
+  group: Group;
+  devices: Device[];
+  updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
+}> = (props: {
+  group: Group;
+  devices: Device[];
+  updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
+}) => {
+  const x = props.devices
+    .filter((d) => props.group.lights.includes(d.id))
+    .map((d) => (
+      <Grid item xs={4} key={d.id}>
+        <HueCard device={d} updateDevice={props.updateDevice} />
+      </Grid>
+    ));
+  return (
+    <Card variant="outlined">
+      <CardContent>
+        <Typography variant="h5" component="h2" mb={2}>
+          {props.group.name}
+        </Typography>
+        <Grid container spacing={2}>
+          {x}
+        </Grid>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -69,12 +126,10 @@ export const HueCard: React.FC<{
   device: Device;
   updateDevice: (deviceId: number, req: UpdateHueStateRequest) => any;
 }) => {
-  const classes = useStyles();
-
   return (
-    <Card className={classes.root}>
+    <Card variant="outlined">
       <CardContent>
-        <Typography className={classes.type} color="textSecondary" gutterBottom>
+        <Typography color="textSecondary" gutterBottom>
           {props.device.type}
         </Typography>
         <Typography variant="h5" component="h2">

@@ -1,18 +1,20 @@
 import { AnyAction, combineReducers, Reducer } from "redux";
 import {
   FETCH_DEVICES_FINISHED,
+  FETCH_GROUPS_FINISHED,
   HueAction,
   REGISTER_APP_FAILED,
   REGISTER_APP_FINISHED,
   REGISTER_APP_START,
   UPDATE_IP_FINISHED,
 } from "../actions/HueAction";
-import { Device } from "../../Contract";
+import { Device, Group } from "../../Contract";
 
 export interface HueUserState {
   readonly name: string | null;
   readonly ip: string | null;
   readonly devices: Device[] | null;
+  readonly groups: Group[] | null;
   readonly userNameDescription: string | null;
 }
 
@@ -20,6 +22,7 @@ const defaultState: HueUserState = {
   name: localStorage.getItem("hueName") ?? null,
   ip: null,
   devices: null,
+  groups: null,
   userNameDescription: null,
 };
 
@@ -38,6 +41,12 @@ export const textReducer: Reducer<HueUserState> = (
         ...state,
         devices: action.devices,
       };
+    case FETCH_GROUPS_FINISHED:
+      return {
+        ...state,
+        groups: action.groups,
+      };
+
     case REGISTER_APP_START:
       return {
         ...state,
