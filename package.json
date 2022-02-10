@@ -68,7 +68,7 @@
     "@mui/icons-material": "^5.4.1",
     "@mui/material": "^5.4.1",
     "@mui/styled-engine": "^5.4.1",
-    "@types/node-fetch": "^2.5.12",
+    "@types/node-fetch": "^3.0.3",
     "electron-store": "^8.0.1",
     "fp-ts": "^2.11.8",
     "node-fetch": "^2.6.7",
