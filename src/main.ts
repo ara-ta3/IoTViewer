@@ -6,9 +6,6 @@ async function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
-    webPreferences: {
-      enableRemoteModule: true,
-    },
   });
   await win.loadFile(`__dist/index.html`);
 
