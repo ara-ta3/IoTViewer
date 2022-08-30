@@ -67,7 +67,7 @@
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.2",
-    "@mui/styled-engine": "^5.10.2",
+    "@mui/styled-engine": "^5.10.3",
     "@types/node-fetch": "^2.6.1",
     "electron-store": "^8.1.0",
     "fp-ts": "^2.12.2",
