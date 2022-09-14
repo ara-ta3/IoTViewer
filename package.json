@@ -50,7 +50,7 @@
   "homepage": "https://github.com/ara-ta3/HueViewer#readme",
   "devDependencies": {
     "@types/electron": "^1.6.10",
-    "@types/node": "^18.7.17",
+    "@types/node": "^18.7.18",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
     "@types/react-redux": "^7.1.24",
