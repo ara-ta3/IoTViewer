@@ -54,7 +54,7 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "@types/react-redux": "^7.1.24",
-    "electron": "21.3.1",
+    "electron": "22.0.0",
     "electron-builder": "^23.6.0",
     "prettier": "^2.8.0",
     "ts-loader": "^9.4.1",
