@@ -51,7 +51,7 @@
   "devDependencies": {
     "@types/electron": "^1.6.10",
     "@types/node": "^20.9.0",
-    "@types/react": "^18.2.36",
+    "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@types/react-redux": "^7.1.30",
     "electron": "27.0.3",
