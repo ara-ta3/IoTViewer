@@ -56,7 +56,7 @@
     "@types/react-redux": "^7.1.30",
     "electron": "27.0.4",
     "electron-builder": "^24.6.4",
-    "prettier": "^3.0.3",
+    "prettier": "^3.1.0",
     "ts-loader": "^9.5.0",
     "typescript": "^5.0.4",
     "webpack": "5.89.0",
