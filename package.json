@@ -57,7 +57,7 @@
     "electron": "27.0.4",
     "electron-builder": "^24.6.4",
     "prettier": "^3.1.0",
-    "ts-loader": "^9.5.0",
+    "ts-loader": "^9.5.1",
     "typescript": "^5.0.4",
     "webpack": "5.89.0",
     "webpack-cli": "5.1.4"
