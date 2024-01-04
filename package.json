@@ -70,7 +70,7 @@
     "@mui/styled-engine": "^5.15.3",
     "@types/node-fetch": "^2.6.4",
     "electron-store": "^8.1.0",
-    "fp-ts": "^2.16.1",
+    "fp-ts": "^2.16.2",
     "node-fetch": "^2.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
