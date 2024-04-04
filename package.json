@@ -52,7 +52,7 @@
     "@types/electron": "^1.6.10",
     "@types/node": "^20.12.4",
     "@types/react": "^18.2.74",
-    "@types/react-dom": "^18.2.23",
+    "@types/react-dom": "^18.2.24",
     "@types/react-redux": "^7.1.33",
     "electron": "28.2.3",
     "electron-builder": "^24.9.1",
