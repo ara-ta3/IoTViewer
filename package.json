@@ -73,7 +73,7 @@
     "fp-ts": "^2.16.5",
     "node-fetch": "^2.7.0",
     "react": "^18.2.0",
-    "react-dom": "^18.3.0",
+    "react-dom": "^18.3.1",
     "react-redux": "^9.1.1",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2"
